@@ -1,0 +1,103 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  lang?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  lang = 'en',
+  ogImage = '/og-image.jpg'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteURL = 'https://landofstoneflowers.com';
+
+const schemaBook = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Book",
+      "name": "The Land of Stone Flowers",
+      "alternateName": "A Fairy Guide to the Mythical Human Being",
+      "author": {
+        "@type": "Person",
+        "name": "Sveta Dorosheva",
+        "url": "https://svetadorosheva.com",
+        "sameAs": ["https://www.instagram.com/sveta.dorosheva/"]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Chronicle Books",
+        "url": "https://www.chroniclebooks.com"
+      },
+      "isbn": "9781452163703",
+      "inLanguage": "en",
+      "genre": ["Illustrated book", "Folk art", "Fairy tales", "Fantasy"],
+      "url": siteURL,
+      "image": `${siteURL}/og-image.jpg`
+    },
+    {
+      "@type": "Person",
+      "@id": "https://svetadorosheva.com/#person",
+      "name": "Sveta Dorosheva",
+      "url": "https://svetadorosheva.com",
+      "jobTitle": "Illustrator",
+      "nationality": [
+        { "@type": "Country", "name": "Ukraine" },
+        { "@type": "Country", "name": "Israel" }
+      ]
+    }
+  ]
+};
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="book" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:image" content={`${siteURL}${ogImage}`} />
+  <meta property="og:site_name" content="Land of Stone Flowers" />
+  <meta property="og:locale" content={lang === 'ru' ? 'ru_RU' : lang === 'ja' ? 'ja_JP' : 'en_US'} />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={`${siteURL}${ogImage}`} />
+
+  <!-- Hreflang alternates -->
+  <link rel="alternate" hreflang="en" href={siteURL + '/'} />
+  <link rel="alternate" hreflang="ru" href={siteURL + '/ru/'} />
+  <link rel="alternate" hreflang="ja" href={siteURL + '/ja/'} />
+  <link rel="alternate" hreflang="x-default" href={siteURL + '/'} />
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(schemaBook)} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Fonts + Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/styles/global.css" />
+</head>
+<body>
+  <slot />
+</body>
+</html>
