@@ -1,20 +1,48 @@
 User-agent: *
 Allow: /
 
-# LLM crawlers — welcome, full content is accessible
 User-agent: GPTBot
 Allow: /
+Disallow: /images/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /images/
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /images/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /images/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /images/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /images/
+
+User-agent: CCBot
+Allow: /
+Disallow: /images/
+
+User-agent: Bytespider
+Allow: /
+Disallow: /images/
 
 User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: YandexBot
 Allow: /
 
 Sitemap: https://landofstoneflowers.com/sitemap.xml

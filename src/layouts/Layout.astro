@@ -16,40 +16,112 @@ const {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const siteURL = 'https://landofstoneflowers.com';
 
+const editions = {
+  en: {
+    name: 'The Land of Stone Flowers',
+    alternateName: 'A Fairy Guide to the Mythical Human Being',
+    isbn: '9781452163703',
+    publisher: { name: 'Chronicle Books', url: 'https://www.chroniclebooks.com' },
+    datePublished: '2018-09-04',
+    translator: 'Jane Bugaeva',
+    url: `${siteURL}/`,
+    buy: 'https://www.chroniclebooks.com/products/the-land-of-stone-flowers',
+  },
+  ru: {
+    name: 'Книга, найденная в кувшинке',
+    alternateName: 'The Nenufar Book',
+    isbn: '9785389067738',
+    publisher: { name: 'Издательство Азбука', url: 'https://azbooka.ru' },
+    datePublished: '2016',
+    translator: null,
+    url: `${siteURL}/ru/`,
+    buy: 'https://azbooka.ru/books/kniga-naydennaya-v-kuvshinke-ctvn',
+  },
+  ja: {
+    name: '妖精たちが見たふしぎな人間世界',
+    alternateName: '石の花の国',
+    isbn: '9784837306726',
+    publisher: { name: 'マール社', url: 'https://www.maar.com' },
+    datePublished: '2017-10-24',
+    translator: null,
+    url: `${siteURL}/ja/`,
+    buy: 'https://www.maar.com/shop/art/art-art/isbn9784837306726',
+  },
+} as const;
+
+const ed = editions[lang as keyof typeof editions] ?? editions.en;
+const isOriginal = lang === 'ru';
+
+const bookNode: Record<string, unknown> = {
+  "@type": "Book",
+  "@id": `${ed.url}#book`,
+  "name": ed.name,
+  "alternateName": ed.alternateName,
+  "author": { "@id": "https://svetadorosheva.com/#person" },
+  "illustrator": { "@id": "https://svetadorosheva.com/#person" },
+  "publisher": {
+    "@type": "Organization",
+    "name": ed.publisher.name,
+    "url": ed.publisher.url
+  },
+  "isbn": ed.isbn,
+  "bookFormat": "https://schema.org/Hardcover",
+  "numberOfPages": 216,
+  "inLanguage": lang,
+  "datePublished": ed.datePublished,
+  "genre": ["Illustrated book", "Folk art", "Fairy tales", "Fantasy"],
+  "url": ed.url,
+  "image": `${siteURL}${ogImage}`,
+  "description": description,
+  "offers": {
+    "@type": "Offer",
+    "url": ed.buy,
+    "availability": "https://schema.org/InStock",
+    "seller": { "@type": "Organization", "name": ed.publisher.name }
+  }
+};
+
+if (ed.translator) {
+  bookNode.translator = { "@type": "Person", "name": ed.translator };
+}
+if (!isOriginal) {
+  bookNode.translationOfWork = {
+    "@type": "Book",
+    "name": "Книга, найденная в кувшинке",
+    "inLanguage": "ru",
+    "isbn": "9785389067738"
+  };
+}
+
 const schemaBook = {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "Book",
-      "name": "The Land of Stone Flowers",
-      "alternateName": "A Fairy Guide to the Mythical Human Being",
-      "author": {
-        "@type": "Person",
-        "name": "Sveta Dorosheva",
-        "url": "https://svetadorosheva.com",
-        "sameAs": ["https://www.instagram.com/sveta.dorosheva/"]
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Chronicle Books",
-        "url": "https://www.chroniclebooks.com"
-      },
-      "isbn": "9781452163703",
-      "inLanguage": "en",
-      "genre": ["Illustrated book", "Folk art", "Fairy tales", "Fantasy"],
-      "url": siteURL,
-      "image": `${siteURL}/og-image.jpg`
-    },
+    bookNode,
     {
       "@type": "Person",
       "@id": "https://svetadorosheva.com/#person",
       "name": "Sveta Dorosheva",
+      "alternateName": ["Светлана Дорошева", "スヴェタ・ドロシェヴァ", "Svetlana Dorosheva"],
       "url": "https://svetadorosheva.com",
       "jobTitle": "Illustrator",
+      "knowsAbout": ["Narrative illustration", "Book art", "Folk art", "Manuscript illumination"],
+      "sameAs": [
+        "https://www.instagram.com/sveta.dorosheva/",
+        "https://www.goodreads.com/book/show/41968801-the-land-of-stone-flowers"
+      ],
       "nationality": [
         { "@type": "Country", "name": "Ukraine" },
         { "@type": "Country", "name": "Israel" }
       ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteURL}/#website`,
+      "url": siteURL,
+      "name": "Land of Stone Flowers",
+      "inLanguage": lang,
+      "about": { "@id": `${ed.url}#book` },
+      "publisher": { "@id": "https://svetadorosheva.com/#person" }
     }
   ]
 };
@@ -59,42 +131,45 @@ const schemaBook = {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <meta name="author" content="Sveta Dorosheva" />
+  <meta name="theme-color" content="#F7F0E3" />
 
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalURL} />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="book" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:image" content={`${siteURL}${ogImage}`} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={`${ed.name} — Sveta Dorosheva`} />
   <meta property="og:site_name" content="Land of Stone Flowers" />
+  <meta property="book:author" content="Sveta Dorosheva" />
+  <meta property="book:isbn" content={ed.isbn} />
   <meta property="og:locale" content={lang === 'ru' ? 'ru_RU' : lang === 'ja' ? 'ja_JP' : 'en_US'} />
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={`${siteURL}${ogImage}`} />
+  <meta name="twitter:image:alt" content={`${ed.name} — Sveta Dorosheva`} />
 
-  <!-- Hreflang alternates -->
   <link rel="alternate" hreflang="en" href={siteURL + '/'} />
   <link rel="alternate" hreflang="ru" href={siteURL + '/ru/'} />
   <link rel="alternate" hreflang="ja" href={siteURL + '/ja/'} />
   <link rel="alternate" hreflang="x-default" href={siteURL + '/'} />
 
-  <!-- Schema.org JSON-LD -->
   <script type="application/ld+json" set:html={JSON.stringify(schemaBook)} />
 
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-  <!-- Fonts + Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="image" href="/images/cover.jpg" fetchpriority="high" />
   <link rel="stylesheet" href="/styles/global.css" />
 </head>
 <body>
