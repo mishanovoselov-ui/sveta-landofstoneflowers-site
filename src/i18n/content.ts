@@ -103,7 +103,7 @@ const en: SiteContent = {
     body: [
       'In the Land of Stone Flowers, gnomes, pixies, and all manner of fairy folk have long observed the peculiar creatures known as humans — and they have **opinions**.',
       'Through a series of illustrated fables told from the fairy-folk\'s perspective, Sveta Dorosheva turns the mirror on us: our rituals, our contradictions, our surprising capacity for wonder. Classic fairy-tale logic meets sharp, tender wit — and every page is alive with hand-drawn ornament that rewards a second look.',
-      'Translated into seven languages. Originally published in Russian as **«Книга, найденная в кувшинке»**.',
+      'Translated into seven languages. Originally published in Russian as **«Книга, найденная в кувшинке»**. English translation by Jane Bugaeva.',
     ],
     factLangs: 'languages',
     factPages: 'pages',
@@ -164,7 +164,7 @@ const en: SiteContent = {
     links: [
       { name: 'Chronicle Books', url: 'https://www.chroniclebooks.com/products/the-land-of-stone-flowers', region: 'United States', badge: 'Publisher', featured: true },
       { name: 'Amazon', url: 'https://www.amazon.com/dp/1452163707', region: 'Worldwide' },
-      { name: 'Book Depository', url: 'https://www.bookdepository.com', region: 'Free worldwide shipping' },
+      { name: 'Waterstones', url: 'https://www.waterstones.com/book/the-land-of-stone-flowers/sveta-dorosheva/9781452163703', region: 'United Kingdom' },
       { name: 'Art Prints', url: 'https://www.svetadorosheva.com/prints', region: 'Museum-quality giclée', badge: 'New', accent: true },
     ],
   },
@@ -261,9 +261,8 @@ const ru: SiteContent = {
     eyebrow: 'Купить книгу',
     title: 'Доступна в России и СНГ',
     links: [
-      { name: 'Издательство Азбука', url: 'https://www.azbooka.ru', region: 'Россия', badge: 'Издатель', featured: true },
-      { name: 'Ozon', url: 'https://www.ozon.ru', region: 'Россия и СНГ' },
-      { name: 'Лабиринт', url: 'https://www.labirint.ru', region: 'Бесплатная доставка' },
+      { name: 'Издательство Азбука', url: 'https://azbooka.ru/books/kniga-naydennaya-v-kuvshinke-ctvn', region: 'Россия', badge: 'Издатель', featured: true },
+      { name: 'Ozon', url: 'https://www.ozon.ru/product/kniga-naydennaya-v-kuvshinke-34386036/', region: 'Россия и СНГ' },
       { name: 'Художественные принты', url: 'https://www.svetadorosheva.com/prints', region: 'Музейная печать giclée', badge: 'Новинка', accent: true },
     ],
   },
@@ -335,7 +334,7 @@ const ja: SiteContent = {
       {
         quote: '読者をファンタジーと寓話の世界へと引き込む精緻で印象的なイラストに満ちあふれており、人間の存在に関する多くの隠れた真実を巧みに明かしています。',
         source: 'Amazon 編集部',
-        url: 'https://www.amazon.co.jp',
+        url: 'https://www.amazon.co.jp/dp/4837306721',
         wide: true,
         stars: '★★★★½',
       },
@@ -360,9 +359,8 @@ const ja: SiteContent = {
     eyebrow: '購入する',
     title: '日本全国でお求めいただけます',
     links: [
-      { name: 'マール社', url: 'https://www.maar.com', region: '日本', badge: '出版社', featured: true },
-      { name: 'Amazon.co.jp', url: 'https://www.amazon.co.jp', region: '日本全国' },
-      { name: 'honto', url: 'https://honto.jp', region: '電子書籍・紙' },
+      { name: 'マール社', url: 'https://www.maar.com/shop/art/art-art/isbn9784837306726', region: '日本', badge: '出版社', featured: true },
+      { name: 'Amazon.co.jp', url: 'https://www.amazon.co.jp/dp/4837306721', region: '日本全国' },
       { name: 'アートプリント', url: 'https://www.svetadorosheva.com/prints', region: '美術館品質ジクレー', badge: '新発売', accent: true },
     ],
   },

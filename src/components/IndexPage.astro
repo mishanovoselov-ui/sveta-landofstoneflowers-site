@@ -73,13 +73,19 @@ const labels = langLabels[locale];
       </div>
     </div>
 
-    <div class="hero__visual" aria-hidden="true">
+    <div class="hero__visual">
       <div class="hero__book-wrap">
         <div class="hero__book-placeholder">
           <div class="hero__book-spine"></div>
           <div class="hero__book-cover">
-            <!-- swap with: <img src="/images/cover.jpg" alt={c.hero.coverAlt} /> -->
-            <span class="hero__book-cover-text">{c.hero.coverPlaceholder}</span>
+            <img
+              src="/images/cover.jpg"
+              alt={c.hero.coverAlt}
+              width="262"
+              height="360"
+              fetchpriority="high"
+              decoding="async"
+            />
           </div>
         </div>
         <div class="hero__shadow"></div>
@@ -118,7 +124,7 @@ const labels = langLabels[locale];
           <span class="about__fact-label">{c.about.factLangs}</span>
         </div>
         <div class="about__fact">
-          <span class="about__fact-num">168</span>
+          <span class="about__fact-num">216</span>
           <span class="about__fact-label">{c.about.factPages}</span>
         </div>
         <div class="about__fact">
@@ -266,8 +272,8 @@ const labels = langLabels[locale];
 .hero__book-wrap { position:relative; width:280px; height:360px; }
 .hero__book-placeholder { width:100%; height:100%; display:flex; border-radius:2px 6px 6px 2px; box-shadow:-6px 0 0 0 var(--stone-light), 0 30px 60px rgba(44,40,34,.3); overflow:hidden; }
 .hero__book-spine { width:18px; background:var(--stone-mid); flex-shrink:0; }
-.hero__book-cover { flex:1; background:linear-gradient(135deg,var(--parchment-alt) 0%,#E8DCC8 100%); display:flex; align-items:center; justify-content:center; border:1px solid rgba(160,129,58,.2); }
-.hero__book-cover-text { font-family:var(--font-serif); font-size:.9rem; color:var(--stone-light); text-align:center; }
+.hero__book-cover { flex:1; position:relative; overflow:hidden; background:var(--parchment-alt); border:1px solid rgba(160,129,58,.2); }
+.hero__book-cover img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
 .hero__shadow { position:absolute; bottom:-20px; left:10%; right:10%; height:20px; background:radial-gradient(ellipse,rgba(44,40,34,.25) 0%,transparent 70%); filter:blur(8px); }
 .hero__scroll { display:flex; justify-content:center; padding:2rem; }
 .hero__scroll-line { width:1px; height:48px; background:linear-gradient(to bottom,var(--gold),transparent); animation:scrollPulse 2s ease-in-out infinite; }
