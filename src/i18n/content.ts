@@ -162,10 +162,7 @@ const en: SiteContent = {
     eyebrow: 'Get the Book',
     title: 'Available worldwide',
     links: [
-      { name: 'Chronicle Books', url: 'https://www.chroniclebooks.com/products/the-land-of-stone-flowers', region: 'United States', badge: 'Publisher', featured: true },
       { name: 'Amazon', url: 'https://www.amazon.com/dp/1452163707', region: 'Worldwide' },
-      { name: 'Waterstones', url: 'https://www.waterstones.com/book/the-land-of-stone-flowers/sveta-dorosheva/9781452163703', region: 'United Kingdom' },
-      { name: 'Art Prints', url: 'https://www.svetadorosheva.com/prints', region: 'Museum-quality giclée', badge: 'New', accent: true },
     ],
   },
   footer: {
@@ -262,8 +259,6 @@ const ru: SiteContent = {
     title: 'Доступна в России и СНГ',
     links: [
       { name: 'Издательство Азбука', url: 'https://azbooka.ru/books/kniga-naydennaya-v-kuvshinke-ctvn', region: 'Россия', badge: 'Издатель', featured: true },
-      { name: 'Ozon', url: 'https://www.ozon.ru/product/kniga-naydennaya-v-kuvshinke-34386036/', region: 'Россия и СНГ' },
-      { name: 'Художественные принты', url: 'https://www.svetadorosheva.com/prints', region: 'Музейная печать giclée', badge: 'Новинка', accent: true },
     ],
   },
   footer: {
