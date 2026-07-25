@@ -134,10 +134,9 @@ const labels = langLabels[locale];
       </div>
     </div>
     <div class="about__gallery">
-      <!-- swap divs with real spread images -->
-      <div class="about__img about__img--1"><span class="about__img-label">{c.about.imgLabels[0]}</span></div>
-      <div class="about__img about__img--2"><span class="about__img-label">{c.about.imgLabels[1]}</span></div>
-      <div class="about__img about__img--3"><span class="about__img-label">{c.about.imgLabels[2]}</span></div>
+      <img class="about__img about__img--1" src="/images/spread-1.jpg" alt={c.about.imgLabels[0]} width="800" height="450" loading="lazy" decoding="async" />
+      <img class="about__img about__img--2" src="/images/spread-2.jpg" alt={c.about.imgLabels[1]} width="400" height="300" loading="lazy" decoding="async" />
+      <img class="about__img about__img--3" src="/images/spread-3.jpg" alt={c.about.imgLabels[2]} width="400" height="300" loading="lazy" decoding="async" />
     </div>
   </div>
 </section>
@@ -293,7 +292,7 @@ const labels = langLabels[locale];
 .about__fact-num { font-family:var(--font-serif); font-size:2.5rem; font-weight:300; color:var(--gold); line-height:1; }
 .about__fact-label { font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--stone-light); margin-top:.25rem; }
 .about__gallery { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-.about__img { background:var(--parchment-alt); border:1px solid rgba(160,129,58,.15); display:flex; align-items:center; justify-content:center; aspect-ratio:4/3; border-radius:2px; }
+.about__img { background:var(--parchment-alt); border:1px solid rgba(160,129,58,.15); aspect-ratio:4/3; border-radius:2px; width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
 .about__img--1 { grid-column:1/-1; aspect-ratio:16/9; }
 .about__img-label { font-size:.75rem; color:var(--stone-light); letter-spacing:.08em; }
 
