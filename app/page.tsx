@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
 
 const BUY_URL = 'https://www.amazon.com/dp/1452163707';
 const PROJECT_URL = 'https://www.svetadorosheva.com/project/the-nenuphar-book';
@@ -39,6 +39,47 @@ function ProjectLink({ label = 'Original project' }: { label?: string }) {
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeStage, setActiveStage] = useState(0);
+  const [preorderStatus, setPreorderStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [preorderMessage, setPreorderMessage] = useState('');
+
+  async function submitPreorder(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const email = String(formData.get('email') || '').trim();
+    const confirmEmail = String(formData.get('confirmEmail') || '').trim();
+
+    if (email.toLowerCase() !== confirmEmail.toLowerCase()) {
+      setPreorderStatus('error');
+      setPreorderMessage('The email addresses do not match.');
+      return;
+    }
+
+    setPreorderStatus('sending');
+    setPreorderMessage('');
+
+    try {
+      const response = await fetch('/api/preorders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          confirmEmail,
+          region: String(formData.get('region') || ''),
+          consent: formData.get('consent') === 'on',
+          website: String(formData.get('website') || ''),
+        }),
+      });
+      const result = await response.json() as { message?: string };
+      if (!response.ok) throw new Error(result.message || 'Please try again.');
+      setPreorderStatus('success');
+      setPreorderMessage('You’re on the list. Your region will help us plan where to print.');
+      form.reset();
+    } catch (error) {
+      setPreorderStatus('error');
+      setPreorderMessage(error instanceof Error ? error.message : 'Please try again.');
+    }
+  }
 
   useEffect(() => {
     const items = Array.from(document.querySelectorAll<HTMLElement>('.journey__station'));
@@ -75,6 +116,7 @@ export default function Home() {
           <a href="#awards" onClick={() => setMenuOpen(false)}>Awards</a>
           <a href="#editions" onClick={() => setMenuOpen(false)}>Editions</a>
           <a href="#artist" onClick={() => setMenuOpen(false)}>The artist</a>
+          <a href="#preorder" onClick={() => setMenuOpen(false)}>Preorder</a>
           <a href={PROJECT_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Original project ↗</a>
         </nav>
       </header>
@@ -165,7 +207,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="buy"><Lily /><p className="eyebrow">Bring the story home</p><h2>The door to the fairy realm<br />is already open.</h2><a href={BUY_URL} target="_blank" rel="noreferrer">Ask to buy <span>↗</span></a></section>
+      <section className="preorder" id="preorder">
+        <div className="preorder__intro"><Lily /><p className="eyebrow">The next printing</p><h2>Tell us where the book<br />should bloom.</h2><p>Join the preorder list, confirm your email, and choose your region. Your answer will help us decide where to print the next edition.</p></div>
+        <form className="preorder__form" onSubmit={submitPreorder} noValidate>
+          <div className="preorder__field"><label htmlFor="preorder-email">Email</label><input id="preorder-email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="you@example.com" required /></div>
+          <div className="preorder__field"><label htmlFor="preorder-confirm-email">Confirm email</label><input id="preorder-confirm-email" name="confirmEmail" type="email" inputMode="email" autoComplete="email" placeholder="you@example.com" required /></div>
+          <div className="preorder__field"><label htmlFor="preorder-region">Region</label><select id="preorder-region" name="region" defaultValue="" required><option value="" disabled>Select your region</option><option value="north-america">North America</option><option value="latin-america">Latin America</option><option value="uk-ireland">UK &amp; Ireland</option><option value="western-europe">Western Europe</option><option value="eastern-europe-central-asia">Eastern Europe &amp; Central Asia</option><option value="middle-east">Middle East</option><option value="africa">Africa</option><option value="asia-pacific">Asia-Pacific</option><option value="other">Other</option></select></div>
+          <div className="preorder__trap" aria-hidden="true"><label htmlFor="preorder-website">Website</label><input id="preorder-website" name="website" type="text" tabIndex={-1} autoComplete="off" /></div>
+          <label className="preorder__consent"><input name="consent" type="checkbox" required /><span>I agree to receive preorder and printing updates by email. Unsubscribe anytime.</span></label>
+          <button type="submit" disabled={preorderStatus === 'sending'}>{preorderStatus === 'sending' ? 'Joining…' : 'Join preorder'}</button>
+          <p className={`preorder__status${preorderStatus === 'error' ? ' is-error' : ''}`} role="status" aria-live="polite">{preorderMessage}</p>
+        </form>
+      </section>
       <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers ↗</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project ↗</a><a href="/llms.txt">LLM guide</a><a href="/sitemap.xml">Sitemap</a></div></footer>
     </main>
   );

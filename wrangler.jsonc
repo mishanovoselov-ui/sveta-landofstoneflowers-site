@@ -9,5 +9,12 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "PREORDERS",
+      "database_name": "landofstoneflowers-preorders",
+      "database_id": "9c63bc0c-28a2-4d0d-a577-d697cc7ffe54"
+    }
+  ]
 }
