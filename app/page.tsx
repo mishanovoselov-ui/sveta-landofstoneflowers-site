@@ -87,12 +87,7 @@ export default function Home() {
           <h1 id="hero-title"><span>The Land of</span>Stone Flowers</h1>
           <h2>A fairy guide to the mythical human being</h2>
         </div>
-        <div className="hero__garland" aria-hidden="true">
-          <span className="garland__line" />
-          <span className="garland__leaf garland__leaf--one" />
-          <Lily small /><Lily /><Lily small />
-          <span className="garland__leaf garland__leaf--two" />
-        </div>
+        <a className="hero__cta" href={BUY_URL} target="_blank" rel="noreferrer">Ask to buy <span aria-hidden="true">↗</span></a>
         <a className="hero__scroll" href="#book">Open the book <span aria-hidden="true">↓</span></a>
       </section>
 
@@ -170,7 +165,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="buy"><Lily /><p className="eyebrow">Bring the story home</p><h2>The door to the fairy realm<br />is already open.</h2><a href={BUY_URL} target="_blank" rel="noreferrer">Get the book <span>↗</span></a></section>
+      <section className="buy"><Lily /><p className="eyebrow">Bring the story home</p><h2>The door to the fairy realm<br />is already open.</h2><a href={BUY_URL} target="_blank" rel="noreferrer">Ask to buy <span>↗</span></a></section>
       <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers ↗</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project ↗</a><a href="https://landofstoneflowers.com/">EN</a><a href="https://landofstoneflowers.com/ru/">RU</a><a href="https://landofstoneflowers.com/ja/">JP</a></div></footer>
     </main>
   );
