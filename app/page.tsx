@@ -109,7 +109,7 @@ export default function Home() {
       <section className="journey" id="journey">
         <div className="journey__visual" style={{ '--journey-progress': `${18 + activeStage * 25}%` } as CSSProperties}>
           <p className="eyebrow">The fairy evidence</p>
-          <div className="vine" aria-hidden="true"><span className="vine__grown" />{stations.map((_, index) => <span key={index} className={`vine__node vine__node--${index + 1}${index <= activeStage ? ' is-grown' : ''}`}><Lily small /></span>)}</div>
+          <div className="vine" aria-hidden="true"><span className="vine__grown" />{stations.map((_, index) => <span key={index} className={`vine__node vine__node--${index + 1}${index < activeStage ? ' is-past' : index === activeStage ? ' is-active' : ''}`}><Lily small /></span>)}</div>
           <div className="journey__index"><span>0{activeStage + 1}</span><i />04</div>
         </div>
         <div className="journey__stations">
