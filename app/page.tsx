@@ -96,7 +96,6 @@ export default function Home() {
           <p className="eyebrow">The English edition</p>
           <h2>A book about people,<br />written by fairies.</h2>
           <p>A genre-defying artist book about humans and their world, observed by gnomes, pixies, and other fairy creatures.</p>
-          <ProjectLink label="Read Sveta’s project story" />
           <dl>
             <div><dt>Published</dt><dd>Chronicle Books</dd></div>
             <div><dt>Format</dt><dd>Hardcover · 216 pages</dd></div>
