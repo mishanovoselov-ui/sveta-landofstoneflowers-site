@@ -125,7 +125,7 @@ export default function Home() {
         <div className="hero__veil" aria-hidden="true" />
         <div className="hero__copy">
           <p><a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva ↗</a></p>
-          <h1 id="hero-title"><span>The Land of</span>Stone Flowers</h1>
+          <h1 id="hero-title"><span>The Land of</span><strong>Stone Flowers</strong></h1>
           <h2>A fairy guide to the mythical human being</h2>
           <a className="hero__cta" href="#preorder">Join preorder</a>
         </div>
