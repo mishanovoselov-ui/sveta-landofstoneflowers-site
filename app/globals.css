@@ -1,10 +1,10 @@
 @import 'tailwindcss';
 
 @font-face { font-family:'Castoro Titling'; src:url('/fonts/castoro-titling/castoro-titling-latin.woff2') format('woff2'); font-style:normal; font-weight:400; font-display:swap; }
-:root { --ink:#16194a; --paper:#f3eddd; --paper-deep:#ddd7bd; --moss:#6d7444; --gold:#c89150; --cream:#fff9ec; --display:'Castoro Titling',Georgia,'Times New Roman',serif; }
+:root { --ink:#16194a; --paper:#f3eddd; --paper-deep:#ddd7bd; --moss:#6d7444; --gold:#c89150; --cream:#fff9ec; --display:'Castoro Titling',Georgia,'Times New Roman',serif; --text-min:18px; }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; }
-body { margin:0; background-color:var(--paper); color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+body { margin:0; background-color:var(--paper); color:var(--ink); font-family:Arial,Helvetica,sans-serif; font-size:var(--text-min); }
 body::before { content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.16; background-image:radial-gradient(rgba(22,25,74,.32) .45px,rgba(22,25,74,0) .55px); background-size:5px 5px; }
 main, section, footer { position:relative; z-index:1; }
 a { color:inherit; text-decoration:none; }
@@ -76,6 +76,36 @@ button { font:inherit; }
 
 .head__brand,.hero h1,.book-reveal__copy h2,.section-head h2,.journey__index span,.journey__station h2,.lily-world p,.facts span,.facts h2,.awards__list h3,.editions__count strong,.editions__grid h3,.artist h2,.buy h2,.footer__title { font-family:var(--display); }
 
+/* Keep every readable label, caption, control and paragraph at 18px or larger. */
+.project-link,
+.project-link span,
+.head__buy,
+.hero__copy>p,
+.eyebrow,
+.hero__scroll,
+.hero__cta,
+.hero__cta span,
+.book-reveal dt,
+.journey__index,
+.journey__station>p:first-child,
+.facts p,
+.section-note,
+.spreads__life figcaption,
+.award__year,
+.awards__list p,
+.awards__list i,
+.press__grid span,
+.editions__count span,
+.editions__grid span,
+.editions__grid p,
+.artist__portrait figcaption,
+.socials a,
+.buy>a,
+.footer { font-size:var(--text-min); }
+.award__mark { font-size:var(--text-min)!important; }
+.hero h1 span { font-size:max(.14em,var(--text-min)); }
+.hero__copy h2 { font-size:clamp(18px,1.7vw,27px); }
+
 @keyframes sway { 0%,100% { rotate:-2deg; } 50% { rotate:2deg; } }
 
 @media (max-width:800px) {
@@ -86,7 +116,7 @@ button { font:inherit; }
   .lily-world { min-height:78vh; }.lily-world img { object-position:52% center; }.lily-world p { right:22px; bottom:50px; left:22px; text-align:left; }
   .facts { padding-bottom:160px; }.facts article { grid-template-columns:1fr; min-height:390px;padding:38px; }.facts article:nth-child(2){top:115px}.facts article:nth-child(3){top:135px}.facts span { font-size:95px; }.facts h2 { font-size:38px; }
   .section-head { display:block; margin-bottom:60px; }.section-head>.eyebrow { padding-top:0; }.section-note { margin-top:25px; }.editions__count { margin-top:30px; }.spreads { padding-block:95px; }.spreads__grid { grid-template-columns:1fr; }.spreads__grid img { min-height:0; }.spreads__life { margin-top:75px; }
-  .awards { grid-template-columns:1fr; gap:65px;padding-block:95px; }.awards .section-head { position:static; }.awards__list>a { grid-template-columns:58px 46px 1fr 16px; gap:13px; min-height:116px; }.award__mark { grid-row:1 / span 2; }.award__year { grid-row:1 / span 2; }.awards__list h3 { grid-column:3; }.awards__list p { grid-column:3; }.awards__list i { grid-column:4; grid-row:1 / span 2; }
+  .awards { grid-template-columns:1fr; gap:65px;padding-block:95px; }.awards .section-head { position:static; }.awards__list>a { grid-template-columns:58px 58px minmax(0,1fr) 20px; gap:13px; min-height:116px; }.award__mark { grid-row:1 / span 2; }.award__year { grid-row:1 / span 2; }.awards__list h3 { grid-column:3; }.awards__list p { grid-column:3; }.awards__list i { grid-column:4; grid-row:1 / span 2; }
   .press__grid { grid-template-columns:1fr; }.press__grid a { min-height:290px;border-right:0;border-bottom:1px solid rgba(243,237,221,.25); }.press__grid a:last-child { border-bottom:0; }
   .editions { padding-block:95px; }.editions__image { margin-bottom:55px; }.editions__grid { grid-template-columns:1fr 1fr; }.editions__grid article { min-height:175px;padding:22px; }.editions__grid h3 { margin-top:38px;font-size:25px; }
   .artist { grid-template-columns:1fr; }.artist__portrait,.artist__portrait img { min-height:64vh; }.artist__portrait img { object-position:center 28%; }.artist__copy { padding-block:85px; }
