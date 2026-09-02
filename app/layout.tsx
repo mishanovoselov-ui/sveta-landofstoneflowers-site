@@ -3,7 +3,7 @@ import './globals.css';
 
 const SITE_URL = 'https://landofstoneflowers.com';
 const TITLE = 'The Land of Stone Flowers | Sveta Dorosheva';
-const DESCRIPTION = 'Discover The Land of Stone Flowers, Sveta Dorosheva’s 216-page illustrated book—a fairy guide to humans, published by Chronicle Books.';
+const DESCRIPTION = 'Discover The Land of Stone Flowers, Sveta Dorosheva’s 216-page illustrated book. Most editions are out of print; join the preorder list for a new printing.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -100,8 +100,9 @@ const structuredData = {
         'https://www.goodreads.com/book/show/41968801-the-land-of-stone-flowers',
       ],
       potentialAction: {
-        '@type': 'BuyAction',
-        target: 'https://www.amazon.com/dp/1452163707',
+        '@type': 'RegisterAction',
+        name: 'Join the preorder list',
+        target: `${SITE_URL}/#preorder`,
       },
     },
     {

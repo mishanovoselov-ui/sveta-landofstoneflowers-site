@@ -2,7 +2,6 @@
 
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
 
-const BUY_URL = 'https://www.amazon.com/dp/1452163707';
 const PROJECT_URL = 'https://www.svetadorosheva.com/project/the-nenuphar-book';
 
 const stations = [
@@ -108,7 +107,7 @@ export default function Home() {
     <main>
       <header className="head">
         <a className="head__brand" href="#top"><span aria-hidden="true">✦</span> Land of Stone Flowers</a>
-        <a className="head__buy" href={BUY_URL} target="_blank" rel="noreferrer">Where to buy</a>
+        <a className="head__buy" href="#preorder">Join preorder</a>
         <button className={`head__menu${menuOpen ? ' is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Open navigation" aria-expanded={menuOpen}><i /><i /></button>
         <nav className={`menu${menuOpen ? ' is-open' : ''}`} aria-label="Site navigation">
           <a href="#book" onClick={() => setMenuOpen(false)}>The book</a>
@@ -129,7 +128,7 @@ export default function Home() {
           <h1 id="hero-title"><span>The Land of</span>Stone Flowers</h1>
           <h2>A fairy guide to the mythical human being</h2>
         </div>
-        <a className="hero__cta" href={BUY_URL} target="_blank" rel="noreferrer">Ask to buy <span aria-hidden="true">↗</span></a>
+        <a className="hero__cta" href="#preorder">Join preorder</a>
         <a className="hero__scroll" href="#book">Open the book <span aria-hidden="true">↓</span></a>
       </section>
 
@@ -195,7 +194,7 @@ export default function Home() {
       </section>
 
       <section className="editions" id="editions">
-        <div className="section-head"><p className="eyebrow">Around the world</p><h2>Many covers.<br />One hidden book.</h2><p className="section-note">Published editions and licensed territories. Availability and imprint vary by market.</p><p className="editions__count"><strong>7</strong><span>translations<br />worldwide</span></p><ProjectLink label="See the original book project" /></div>
+        <div className="section-head"><p className="eyebrow">Around the world</p><h2>Many covers.<br />One hidden book.</h2><p className="section-note">Most editions are now out of print. A limited number of copies may still be found in parts of Asia; join the preorder list to help shape a new printing.</p><p className="editions__count"><strong>7</strong><span>translations<br />worldwide</span></p><ProjectLink label="See the original book project" /></div>
         <img className="editions__image" src="/archive/editions.jpg" width="1900" height="2283" alt="Four international editions of The Land of Stone Flowers" loading="lazy" decoding="async" />
         <div className="editions__grid">{markets.map(([code, country, publisher]) => <article key={code}><span>{code}</span><h3>{country}</h3><p>{publisher}</p></article>)}</div>
       </section>
