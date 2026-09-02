@@ -174,9 +174,10 @@ export default function Home() {
       </section>
 
       <section className="spreads" id="inside">
-        <div className="section-head"><p className="eyebrow">Inside the book</p><h2>Every page is<br />another world.</h2><ProjectLink label="Explore the complete project" /></div>
+        <div className="section-head"><p className="eyebrow">Inside the book</p><h2>Every page is<br />another world.</h2></div>
         <div className="spreads__grid"><img src="/archive/types.jpg" width="1900" height="1204" alt="Types of human beings, an illustrated book spread" loading="lazy" decoding="async" /><img src="/archive/black-white.jpg" width="1900" height="1290" alt="Black-and-white illustrated book spread" loading="lazy" decoding="async" /><img src="/archive/refusal.jpg" width="1900" height="1129" alt="Colorful illustrated field notes from the book" loading="lazy" decoding="async" /><img src="/archive/wizards.jpg" width="1900" height="1158" alt="The Wizards, a blue illustrated book spread" loading="lazy" decoding="async" /></div>
         <figure className="spreads__life"><img src="/hero/images.png" width="1186" height="662" alt="Three views of a reader with The Land of Stone Flowers" loading="lazy" decoding="async" /><figcaption>Made to live with, not just to sit on a shelf.</figcaption></figure>
+        <div className="spreads__action"><a href="#preorder">Join the reprint list</a><p>No payment now. Your region helps us plan the next printing.</p></div>
       </section>
 
       <section className="awards" id="awards">
