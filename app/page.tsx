@@ -105,7 +105,7 @@ export default function Home() {
       </section>
 
       <section className="journey" id="journey">
-        <div className="journey__visual" style={{ '--journey-progress': `${(activeStage + 1) * 25}%` } as CSSProperties}>
+        <div className="journey__visual" style={{ '--journey-progress': `${18 + activeStage * 25}%` } as CSSProperties}>
           <p className="eyebrow">The fairy evidence</p>
           <div className="vine" aria-hidden="true"><span className="vine__grown" />{stations.map((_, index) => <span key={index} className={`vine__node vine__node--${index + 1}${index <= activeStage ? ' is-grown' : ''}`}><Lily small /></span>)}</div>
           <div className="journey__index"><span>0{activeStage + 1}</span><i />04</div>
@@ -125,7 +125,7 @@ export default function Home() {
       </section>
 
       <section className="facts" aria-label="Book facts">
-        <article><span>7</span><h2>languages</h2><p>One strange human world, translated for readers across cultures.</p></article>
+        <article><span>7</span><h2>translations</h2><p>Published in seven languages for readers across cultures.</p></article>
         <article><span>216</span><h2>illustrated pages</h2><p>Dense with hand-drawn borders, evidence, specimens, and visual jokes.</p></article>
         <article><span>∞</span><h2>hidden details</h2><p>A book designed to be revisited, wandered through, and looked at twice.</p></article>
       </section>
@@ -151,13 +151,13 @@ export default function Home() {
       </section>
 
       <section className="editions" id="editions">
-        <div className="section-head"><p className="eyebrow">Around the world</p><h2>Many covers.<br />One hidden book.</h2><p className="section-note">Published editions and licensed territories. Availability and imprint vary by market.</p></div>
+        <div className="section-head"><p className="eyebrow">Around the world</p><h2>Many covers.<br />One hidden book.</h2><p className="section-note">Published editions and licensed territories. Availability and imprint vary by market.</p><p className="editions__count"><strong>7</strong><span>translations<br />worldwide</span></p></div>
         <img className="editions__image" src="/archive/editions.jpg" alt="Four international editions of The Land of Stone Flowers" loading="lazy" />
         <div className="editions__grid">{markets.map(([code, country, publisher]) => <article key={code}><span>{code}</span><h3>{country}</h3><p>{publisher}</p></article>)}</div>
       </section>
 
       <section className="artist" id="artist">
-        <img src="/hero/hero1.png" alt="A reader holding the blue and gold edition of The Land of Stone Flowers" loading="lazy" />
+        <figure className="artist__portrait"><img src="/archive/sveta-dorosheva.jpg" alt="Sveta Dorosheva reading an edition of The Land of Stone Flowers" loading="lazy" /><figcaption>Courtesy of Sveta Dorosheva</figcaption></figure>
         <div className="artist__copy"><p className="eyebrow">The artist</p><h2>Sveta<br />Dorosheva</h2><p>Ukrainian-born and based in Israel, Sveta creates intricate, hand-drawn narrative art on paper. Myth, folk tradition, medieval manuscripts, and the contradictions of human nature meet in her work.</p>
           <div className="socials"><a href="https://svetadorosheva.com" target="_blank" rel="noreferrer">Portfolio ↗</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance ↗</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook ↗</a></div>
         </div>

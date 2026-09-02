@@ -2,7 +2,7 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "sveta-landofstoneflowers-site",
   "main": "dist/server/index.js",
-  "compatibility_date": "2026-07-25",
+  "compatibility_date": "2026-05-22",
   "no_bundle": true,
   "assets": {
     "directory": "dist/client"
