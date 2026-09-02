@@ -13,13 +13,13 @@ const stations = [
 ];
 
 const awards = [
-  ['2024', 'World Illustration Awards', 'Winner · Professional Category'],
-  ['2024', 'Communication Arts', 'Award of Excellence'],
-  ['2024', 'American Illustration 43', 'Chosen Winner'],
-  ['2024', 'V&A Illustration Awards', 'Shortlist'],
-  ['2018', 'World Illustration Awards', 'Two shortlists'],
-  ['2017', 'Global Illustration Award', 'Honorary Mention'],
-  ['2016', 'Hiii Illustration', 'Best of the Best'],
+  { year: '2024', mark: 'WIA', logo: '/awards/world-illustration-awards.png', name: 'World Illustration Awards', result: 'Professional Advertising Winner', href: 'https://theaoi.com/news/the-world-illustration-awards-2024-winners-are-announced-2' },
+  { year: '2024', mark: 'CA', logo: '/awards/communication-arts.png', name: 'Communication Arts', result: 'Award of Excellence', href: 'https://www.commarts.com/competition/2024-illustration' },
+  { year: '2024', mark: 'AI–AP', logo: '/awards/american-illustration.png', name: 'American Illustration 43', result: 'Chosen Winner', href: 'https://www.ai-ap.com/slideshow/AI/43/?status=chosen' },
+  { year: '2024', mark: 'V&A', name: 'V&A Illustration Awards', result: 'Shortlist', href: 'https://www.vam.ac.uk/blog/museum-life/va-illustration-awards-2024-the-shortlists' },
+  { year: '2018', mark: 'WIA', logo: '/awards/world-illustration-awards.png', name: 'World Illustration Awards', result: 'Two shortlists', href: 'https://theaoi.com/news/wia2018-shortlist-announced' },
+  { year: '2017', mark: 'GIA', name: 'Global Illustration Award', result: 'Honorary Mention', href: 'https://www.svetadorosheva.com/about-me' },
+  { year: '2016', mark: 'Hiii', name: 'Hiii Illustration', result: 'Best of the Best', href: 'https://www.svetadorosheva.com/about-me' },
 ];
 
 const markets = [
@@ -145,7 +145,7 @@ export default function Home() {
 
       <section className="awards" id="awards">
         <div className="section-head"><p className="eyebrow">Selected recognition</p><h2>Awarded<br />imagination.</h2><p className="section-note">These distinctions recognize Sveta Dorosheva&apos;s wider illustration practice. The book itself was nominated for Russia&apos;s National Bestseller award in 2015.</p></div>
-        <div className="awards__list">{awards.map(([year, name, result]) => <div key={`${year}-${name}`}><span>{year}</span><h3>{name}</h3><p>{result}</p></div>)}</div>
+        <div className="awards__list">{awards.map(({ year, mark, logo, name, result, href }) => <a key={`${year}-${name}`} href={href} target="_blank" rel="noreferrer" aria-label={`${name}: ${result}`}><span className="award__mark" aria-hidden="true">{logo ? <img src={logo} alt="" loading="lazy" /> : mark}</span><span className="award__year">{year}</span><h3>{name}</h3><p>{result}</p><i aria-hidden="true">↗</i></a>)}</div>
       </section>
 
       <section className="press">
