@@ -161,7 +161,7 @@ export default function Home() {
       <section className="artist" id="artist">
         <figure className="artist__portrait"><img src="/archive/sveta-dorosheva-author.jpg" width="1600" height="1129" alt="Sveta Dorosheva holding an illustrated book outdoors" loading="lazy" decoding="async" /><figcaption>Courtesy of Sveta Dorosheva</figcaption></figure>
         <div className="artist__copy"><p className="eyebrow">The artist</p><h2>Sveta<br />Dorosheva</h2><p>Ukrainian-born and based in Israel, Sveta creates intricate, hand-drawn narrative art on paper. Myth, folk tradition, medieval manuscripts, and the contradictions of human nature meet in her work.</p>
-          <div className="socials"><a href={PROJECT_URL} target="_blank" rel="noreferrer">Book project ↗</a><a href="https://www.svetadorosheva.com/" target="_blank" rel="noreferrer">Artist website ↗</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance ↗</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook ↗</a></div>
+          <div className="socials"><a href={PROJECT_URL} target="_blank" rel="noreferrer">Book project</a><a href="https://www.svetadorosheva.com/" target="_blank" rel="noreferrer">Artist website</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook</a></div>
         </div>
       </section>
 
