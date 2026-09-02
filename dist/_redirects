@@ -1,8 +1,0 @@
-# Cloudflare Pages redirects
-
-# Normalise trailing slashes
-/ru  /ru/  301
-/ja  /ja/  301
-
-# Future: redirect old paths if needed
-# /en/*  /:splat  301
