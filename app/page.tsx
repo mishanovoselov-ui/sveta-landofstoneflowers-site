@@ -108,7 +108,7 @@ export default function Home() {
             <div><dt>ISBN</dt><dd>978-1-4521-6370-3</dd></div>
           </dl>
         </div>
-        <figure className="book-reveal__cover"><span className="book-reveal__halo" /><img src="/archive/english-cover.jpg" alt="The blue and gold English cover of The Land of Stone Flowers" /></figure>
+        <figure className="book-reveal__cover"><img src="/archive/english-cover.jpg" alt="The blue and gold English cover of The Land of Stone Flowers" /></figure>
       </section>
 
       <section className="journey" id="journey">
