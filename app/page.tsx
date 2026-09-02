@@ -3,12 +3,13 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 
 const BUY_URL = 'https://www.amazon.com/dp/1452163707';
+const PROJECT_URL = 'https://www.svetadorosheva.com/project/the-nenuphar-book';
 
 const stations = [
-  { number: 'I', label: 'Anatomy', title: 'The improbable human body', text: 'A field guide to the odd construction, habits, and vulnerabilities of the mythical human being.', image: '/archive/anatomy.jpg', alt: 'An illustrated book spread examining what a human is' },
-  { number: 'II', label: 'Rituals', title: 'Customs nobody can explain', text: 'Why humans gather, celebrate, work, worry, dance, and repeat the same mysterious ceremonies.', image: '/archive/faces.jpg', alt: 'A book spread showing many illustrated types of human beings' },
-  { number: 'III', label: 'Moods', title: 'The invisible hats', text: 'Fairy observers conclude that every human wears an unseen hat that changes the world beneath it.', image: '/archive/music.jpg', alt: 'A richly colored illustrated spread about music' },
-  { number: 'IV', label: 'Belief', title: 'Evidence that people exist', text: 'A playful archive of clues assembled by creatures who remain understandably skeptical about us.', image: '/archive/roses.jpg', alt: 'A hand-lettered book spread with red roses' },
+  { number: 'I', label: 'Anatomy', title: 'The improbable human body', text: 'Keen fairy observations and wonderfully wild assumptions about the unlikely construction of human beings.', image: '/archive/anatomy.jpg', alt: 'An illustrated book spread examining what a human is' },
+  { number: 'II', label: 'Rituals', title: 'Customs nobody can explain', text: 'A topsy-turvy study of human customs, rituals, languages, dwellings, and other puzzling habits.', image: '/archive/faces.jpg', alt: 'A book spread showing many illustrated types of human beings' },
+  { number: 'III', label: 'Moods', title: 'The invisible hats', text: 'Invisible hats called moods cloud the way humans see themselves, one another, and the world.', image: '/archive/music.jpg', alt: 'A richly colored illustrated spread about music' },
+  { number: 'IV', label: 'Belief', title: 'Evidence that people exist', text: 'Fantasy and fable become a sly mirror, revealing hidden truths about the strange human world.', image: '/archive/roses.jpg', alt: 'A hand-lettered book spread with red roses' },
 ];
 
 const awards = [
@@ -29,6 +30,10 @@ const markets = [
 
 function Lily({ small = false }: { small?: boolean }) {
   return <span className={`lily${small ? ' lily--small' : ''}`} aria-hidden="true"><i /><i /><i /><i /><i /><b /></span>;
+}
+
+function ProjectLink({ label = 'Original project' }: { label?: string }) {
+  return <a className="project-link" href={PROJECT_URL} target="_blank" rel="noreferrer">{label}<span aria-hidden="true">↗</span></a>;
 }
 
 export default function Home() {
@@ -70,6 +75,7 @@ export default function Home() {
           <a href="#awards" onClick={() => setMenuOpen(false)}>Awards</a>
           <a href="#editions" onClick={() => setMenuOpen(false)}>Editions</a>
           <a href="#artist" onClick={() => setMenuOpen(false)}>The artist</a>
+          <a href={PROJECT_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Original project ↗</a>
         </nav>
       </header>
 
@@ -77,7 +83,7 @@ export default function Home() {
         <img className="hero__image" src="/archive/header-new.jpg" alt="An illustrated woman holding a red flower beneath an extraordinary tower-like headdress" />
         <div className="hero__veil" aria-hidden="true" />
         <div className="hero__copy">
-          <p>Sveta Dorosheva</p>
+          <p><a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva ↗</a></p>
           <h1 id="hero-title"><span>The Land of</span>Stone Flowers</h1>
           <h2>A fairy guide to the mythical human being</h2>
         </div>
@@ -94,7 +100,8 @@ export default function Home() {
         <div className="book-reveal__copy">
           <p className="eyebrow">The English edition</p>
           <h2>A book about people,<br />written by fairies.</h2>
-          <p>Discovered in a water lily under mysterious circumstances, this illustrated field guide gathers fairy evidence that humans really do exist.</p>
+          <p>A genre-defying artist book about humans and their world, observed by gnomes, pixies, and other fairy creatures.</p>
+          <ProjectLink label="Read Sveta’s project story" />
           <dl>
             <div><dt>Published</dt><dd>Chronicle Books</dd></div>
             <div><dt>Format</dt><dd>Hardcover · 216 pages</dd></div>
@@ -113,7 +120,7 @@ export default function Home() {
         <div className="journey__stations">
           {stations.map((station, index) => (
             <article className={`journey__station${index === activeStage ? ' is-active' : ''}`} key={station.label}>
-              <p>{station.number} · {station.label}</p><h2>{station.title}</h2><figure className="station__image"><img src={station.image} alt={station.alt} loading="lazy" /></figure><div className="station__lily"><Lily /></div><p>{station.text}</p>
+              <p>{station.number} · {station.label}</p><h2>{station.title}</h2><figure className="station__image"><img src={station.image} alt={station.alt} loading="lazy" /></figure><div className="station__lily"><Lily /></div><p>{station.text}</p><ProjectLink />
             </article>
           ))}
         </div>
@@ -131,7 +138,7 @@ export default function Home() {
       </section>
 
       <section className="spreads" id="inside">
-        <div className="section-head"><p className="eyebrow">Inside the book</p><h2>Every page is<br />another world.</h2></div>
+        <div className="section-head"><p className="eyebrow">Inside the book</p><h2>Every page is<br />another world.</h2><ProjectLink label="Explore the complete project" /></div>
         <div className="spreads__grid"><img src="/archive/types.jpg" alt="Types of human beings, an illustrated book spread" loading="lazy" /><img src="/archive/black-white.jpg" alt="Black-and-white illustrated book spread" loading="lazy" /><img src="/archive/refusal.jpg" alt="Colorful illustrated field notes from the book" loading="lazy" /><img src="/archive/wizards.jpg" alt="The Wizards, a blue illustrated book spread" loading="lazy" /></div>
         <figure className="spreads__life"><img src="/hero/images.png" alt="Three views of a reader with The Land of Stone Flowers" loading="lazy" /><figcaption>Made to live with, not just to sit on a shelf.</figcaption></figure>
       </section>
@@ -151,7 +158,7 @@ export default function Home() {
       </section>
 
       <section className="editions" id="editions">
-        <div className="section-head"><p className="eyebrow">Around the world</p><h2>Many covers.<br />One hidden book.</h2><p className="section-note">Published editions and licensed territories. Availability and imprint vary by market.</p><p className="editions__count"><strong>7</strong><span>translations<br />worldwide</span></p></div>
+        <div className="section-head"><p className="eyebrow">Around the world</p><h2>Many covers.<br />One hidden book.</h2><p className="section-note">Published editions and licensed territories. Availability and imprint vary by market.</p><p className="editions__count"><strong>7</strong><span>translations<br />worldwide</span></p><ProjectLink label="See the original book project" /></div>
         <img className="editions__image" src="/archive/editions.jpg" alt="Four international editions of The Land of Stone Flowers" loading="lazy" />
         <div className="editions__grid">{markets.map(([code, country, publisher]) => <article key={code}><span>{code}</span><h3>{country}</h3><p>{publisher}</p></article>)}</div>
       </section>
@@ -159,12 +166,12 @@ export default function Home() {
       <section className="artist" id="artist">
         <figure className="artist__portrait"><img src="/archive/sveta-dorosheva.jpg" alt="Sveta Dorosheva reading an edition of The Land of Stone Flowers" loading="lazy" /><figcaption>Courtesy of Sveta Dorosheva</figcaption></figure>
         <div className="artist__copy"><p className="eyebrow">The artist</p><h2>Sveta<br />Dorosheva</h2><p>Ukrainian-born and based in Israel, Sveta creates intricate, hand-drawn narrative art on paper. Myth, folk tradition, medieval manuscripts, and the contradictions of human nature meet in her work.</p>
-          <div className="socials"><a href="https://svetadorosheva.com" target="_blank" rel="noreferrer">Portfolio ↗</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance ↗</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook ↗</a></div>
+          <div className="socials"><a href={PROJECT_URL} target="_blank" rel="noreferrer">Book project ↗</a><a href="https://www.svetadorosheva.com/" target="_blank" rel="noreferrer">Artist website ↗</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance ↗</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook ↗</a></div>
         </div>
       </section>
 
       <section className="buy"><Lily /><p className="eyebrow">Bring the story home</p><h2>The door to the fairy realm<br />is already open.</h2><a href={BUY_URL} target="_blank" rel="noreferrer">Get the book <span>↗</span></a></section>
-      <footer className="footer"><p className="footer__title">The Land of Stone Flowers</p><p>Illustrations © Sveta Dorosheva<br />Published by Chronicle Books</p><div><a href="https://landofstoneflowers.com/">EN</a><a href="https://landofstoneflowers.com/ru/">RU</a><a href="https://landofstoneflowers.com/ja/">JP</a></div></footer>
+      <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers ↗</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project ↗</a><a href="https://landofstoneflowers.com/">EN</a><a href="https://landofstoneflowers.com/ru/">RU</a><a href="https://landofstoneflowers.com/ja/">JP</a></div></footer>
     </main>
   );
 }

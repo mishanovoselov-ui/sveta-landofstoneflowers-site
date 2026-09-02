@@ -3,10 +3,10 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'The Land of Stone Flowers — An Illustrated Book by Sveta Dorosheva',
-  description: 'A fairy guide to the mythical human being. Hand-drawn illustrations by Sveta Dorosheva.',
+  description: 'A genre-defying artist book about the human world as observed by fairy creatures, written and illustrated by Sveta Dorosheva.',
   openGraph: {
     title: 'The Land of Stone Flowers — An Illustrated Book by Sveta Dorosheva',
-    description: 'A fairy guide to the mythical human being. Hand-drawn illustrations by Sveta Dorosheva.',
+    description: 'A genre-defying artist book about the human world as observed by fairy creatures, written and illustrated by Sveta Dorosheva.',
     type: 'book',
     url: 'https://landofstoneflowers.com/',
     images: [{ url: 'https://landofstoneflowers.com/archive/header-new.jpg', width: 1900, height: 1254 }],
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'The Land of Stone Flowers',
-    description: 'A fairy guide to the mythical human being.',
+    description: 'A genre-defying artist book about the human world as observed by fairy creatures.',
     images: ['https://landofstoneflowers.com/archive/header-new.jpg'],
   },
 };
