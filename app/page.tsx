@@ -6,10 +6,10 @@ const BUY_URL = 'https://www.amazon.com/dp/1452163707';
 const PROJECT_URL = 'https://www.svetadorosheva.com/project/the-nenuphar-book';
 
 const stations = [
-  { number: 'I', label: 'Anatomy', title: 'The improbable human body', text: 'Keen fairy observations and wonderfully wild assumptions about the unlikely construction of human beings.', image: '/archive/anatomy.jpg', alt: 'An illustrated book spread examining what a human is' },
-  { number: 'II', label: 'Rituals', title: 'Customs nobody can explain', text: 'A topsy-turvy study of human customs, rituals, languages, dwellings, and other puzzling habits.', image: '/archive/faces.jpg', alt: 'A book spread showing many illustrated types of human beings' },
-  { number: 'III', label: 'Moods', title: 'The invisible hats', text: 'Invisible hats called moods cloud the way humans see themselves, one another, and the world.', image: '/archive/music.jpg', alt: 'A richly colored illustrated spread about music' },
-  { number: 'IV', label: 'Belief', title: 'Evidence that people exist', text: 'Fantasy and fable become a sly mirror, revealing hidden truths about the strange human world.', image: '/archive/roses.jpg', alt: 'A hand-lettered book spread with red roses' },
+  { number: 'I', label: 'Anatomy', title: 'The improbable human body', text: 'Keen fairy observations and wonderfully wild assumptions about the unlikely construction of human beings.', image: '/archive/anatomy.jpg', alt: 'An illustrated book spread examining what a human is', width: 1900, height: 1206 },
+  { number: 'II', label: 'Rituals', title: 'Customs nobody can explain', text: 'A topsy-turvy study of human customs, rituals, languages, dwellings, and other puzzling habits.', image: '/archive/faces.jpg', alt: 'A book spread showing many illustrated types of human beings', width: 1900, height: 1217 },
+  { number: 'III', label: 'Moods', title: 'The invisible hats', text: 'Invisible hats called moods cloud the way humans see themselves, one another, and the world.', image: '/archive/music.jpg', alt: 'A richly colored illustrated spread about music', width: 1900, height: 1134 },
+  { number: 'IV', label: 'Belief', title: 'Evidence that people exist', text: 'Fantasy and fable become a sly mirror, revealing hidden truths about the strange human world.', image: '/archive/roses.jpg', alt: 'A hand-lettered book spread with red roses', width: 1900, height: 1139 },
 ];
 
 const awards = [
@@ -80,7 +80,7 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top" aria-labelledby="hero-title">
-        <img className="hero__image" src="/archive/header-new.jpg" alt="An illustrated woman holding a red flower beneath an extraordinary tower-like headdress" />
+        <img className="hero__image" src="/archive/header-new.jpg" width="1900" height="1254" fetchPriority="high" alt="An illustrated woman holding a red flower beneath an extraordinary tower-like headdress" />
         <div className="hero__veil" aria-hidden="true" />
         <div className="hero__copy">
           <p><a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva ↗</a></p>
@@ -103,7 +103,7 @@ export default function Home() {
             <div><dt>ISBN</dt><dd>978-1-4521-6370-3</dd></div>
           </dl>
         </div>
-        <figure className="book-reveal__cover"><img src="/archive/english-cover.jpg" alt="The blue and gold English cover of The Land of Stone Flowers" /></figure>
+        <figure className="book-reveal__cover"><img src="/archive/english-cover.jpg" width="1900" height="2198" alt="The blue and gold English cover of The Land of Stone Flowers" /></figure>
       </section>
 
       <section className="journey" id="journey">
@@ -115,14 +115,14 @@ export default function Home() {
         <div className="journey__stations">
           {stations.map((station, index) => (
             <article className={`journey__station${index === activeStage ? ' is-active' : ''}`} key={station.label}>
-              <p>{station.number} · {station.label}</p><h2>{station.title}</h2><figure className="station__image"><img src={station.image} alt={station.alt} loading="lazy" /></figure><div className="station__lily"><Lily /></div><p>{station.text}</p><ProjectLink />
+              <p>{station.number} · {station.label}</p><h2>{station.title}</h2><figure className="station__image"><img src={station.image} width={station.width} height={station.height} alt={station.alt} loading="lazy" decoding="async" /></figure><div className="station__lily"><Lily /></div><p>{station.text}</p><ProjectLink />
             </article>
           ))}
         </div>
       </section>
 
       <section className="lily-world" aria-label="The world of the water lily">
-        <img src="/archive/water-lily.jpg" alt="A tiny fairy seated among immense pink water lilies" loading="lazy" />
+        <img src="/archive/water-lily.jpg" width="1900" height="1268" alt="A tiny fairy seated among immense pink water lilies" loading="lazy" decoding="async" />
         <p>Discovered in a water lily<br />under mysterious circumstances.</p>
       </section>
 
@@ -134,8 +134,8 @@ export default function Home() {
 
       <section className="spreads" id="inside">
         <div className="section-head"><p className="eyebrow">Inside the book</p><h2>Every page is<br />another world.</h2><ProjectLink label="Explore the complete project" /></div>
-        <div className="spreads__grid"><img src="/archive/types.jpg" alt="Types of human beings, an illustrated book spread" loading="lazy" /><img src="/archive/black-white.jpg" alt="Black-and-white illustrated book spread" loading="lazy" /><img src="/archive/refusal.jpg" alt="Colorful illustrated field notes from the book" loading="lazy" /><img src="/archive/wizards.jpg" alt="The Wizards, a blue illustrated book spread" loading="lazy" /></div>
-        <figure className="spreads__life"><img src="/hero/images.png" alt="Three views of a reader with The Land of Stone Flowers" loading="lazy" /><figcaption>Made to live with, not just to sit on a shelf.</figcaption></figure>
+        <div className="spreads__grid"><img src="/archive/types.jpg" width="1900" height="1204" alt="Types of human beings, an illustrated book spread" loading="lazy" decoding="async" /><img src="/archive/black-white.jpg" width="1900" height="1290" alt="Black-and-white illustrated book spread" loading="lazy" decoding="async" /><img src="/archive/refusal.jpg" width="1900" height="1129" alt="Colorful illustrated field notes from the book" loading="lazy" decoding="async" /><img src="/archive/wizards.jpg" width="1900" height="1158" alt="The Wizards, a blue illustrated book spread" loading="lazy" decoding="async" /></div>
+        <figure className="spreads__life"><img src="/hero/images.png" width="1186" height="662" alt="Three views of a reader with The Land of Stone Flowers" loading="lazy" decoding="async" /><figcaption>Made to live with, not just to sit on a shelf.</figcaption></figure>
       </section>
 
       <section className="awards" id="awards">
@@ -154,19 +154,19 @@ export default function Home() {
 
       <section className="editions" id="editions">
         <div className="section-head"><p className="eyebrow">Around the world</p><h2>Many covers.<br />One hidden book.</h2><p className="section-note">Published editions and licensed territories. Availability and imprint vary by market.</p><p className="editions__count"><strong>7</strong><span>translations<br />worldwide</span></p><ProjectLink label="See the original book project" /></div>
-        <img className="editions__image" src="/archive/editions.jpg" alt="Four international editions of The Land of Stone Flowers" loading="lazy" />
+        <img className="editions__image" src="/archive/editions.jpg" width="1900" height="2283" alt="Four international editions of The Land of Stone Flowers" loading="lazy" decoding="async" />
         <div className="editions__grid">{markets.map(([code, country, publisher]) => <article key={code}><span>{code}</span><h3>{country}</h3><p>{publisher}</p></article>)}</div>
       </section>
 
       <section className="artist" id="artist">
-        <figure className="artist__portrait"><img src="/archive/sveta-dorosheva-author.jpg" alt="Sveta Dorosheva holding an illustrated book outdoors" loading="lazy" /><figcaption>Courtesy of Sveta Dorosheva</figcaption></figure>
+        <figure className="artist__portrait"><img src="/archive/sveta-dorosheva-author.jpg" width="1600" height="1129" alt="Sveta Dorosheva holding an illustrated book outdoors" loading="lazy" decoding="async" /><figcaption>Courtesy of Sveta Dorosheva</figcaption></figure>
         <div className="artist__copy"><p className="eyebrow">The artist</p><h2>Sveta<br />Dorosheva</h2><p>Ukrainian-born and based in Israel, Sveta creates intricate, hand-drawn narrative art on paper. Myth, folk tradition, medieval manuscripts, and the contradictions of human nature meet in her work.</p>
           <div className="socials"><a href={PROJECT_URL} target="_blank" rel="noreferrer">Book project ↗</a><a href="https://www.svetadorosheva.com/" target="_blank" rel="noreferrer">Artist website ↗</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance ↗</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook ↗</a></div>
         </div>
       </section>
 
       <section className="buy"><Lily /><p className="eyebrow">Bring the story home</p><h2>The door to the fairy realm<br />is already open.</h2><a href={BUY_URL} target="_blank" rel="noreferrer">Ask to buy <span>↗</span></a></section>
-      <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers ↗</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project ↗</a><a href="https://landofstoneflowers.com/">EN</a><a href="https://landofstoneflowers.com/ru/">RU</a><a href="https://landofstoneflowers.com/ja/">JP</a></div></footer>
+      <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers ↗</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project ↗</a><a href="/llms.txt">LLM guide</a><a href="/sitemap.xml">Sitemap</a></div></footer>
     </main>
   );
 }

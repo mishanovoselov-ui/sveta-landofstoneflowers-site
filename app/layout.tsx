@@ -1,22 +1,124 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
+const SITE_URL = 'https://landofstoneflowers.com';
+const TITLE = 'The Land of Stone Flowers | Sveta Dorosheva';
+const DESCRIPTION = 'Discover The Land of Stone Flowers, Sveta Dorosheva’s 216-page illustrated book—a fairy guide to humans, published by Chronicle Books.';
+
 export const metadata: Metadata = {
-  title: 'The Land of Stone Flowers — An Illustrated Book by Sveta Dorosheva',
-  description: 'A genre-defying artist book about the human world as observed by fairy creatures, written and illustrated by Sveta Dorosheva.',
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  applicationName: 'The Land of Stone Flowers',
+  keywords: [
+    'The Land of Stone Flowers',
+    'The Nenuphar Book',
+    'Sveta Dorosheva',
+    'illustrated book',
+    'artist book',
+    'fairy book',
+    'Chronicle Books',
+  ],
+  authors: [{ name: 'Sveta Dorosheva', url: 'https://www.svetadorosheva.com/' }],
+  creator: 'Sveta Dorosheva',
+  publisher: 'Chronicle Books',
+  category: 'books',
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   openGraph: {
-    title: 'The Land of Stone Flowers — An Illustrated Book by Sveta Dorosheva',
-    description: 'A genre-defying artist book about the human world as observed by fairy creatures, written and illustrated by Sveta Dorosheva.',
+    title: TITLE,
+    description: DESCRIPTION,
     type: 'book',
-    url: 'https://landofstoneflowers.com/',
-    images: [{ url: 'https://landofstoneflowers.com/archive/header-new.jpg', width: 1900, height: 1254 }],
+    url: '/',
+    siteName: 'The Land of Stone Flowers',
+    locale: 'en_US',
+    authors: ['https://www.svetadorosheva.com/'],
+    isbn: '9781452163703',
+    images: [{
+      url: '/archive/header-new.jpg',
+      width: 1900,
+      height: 1254,
+      alt: 'The Land of Stone Flowers by Sveta Dorosheva',
+    }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'The Land of Stone Flowers',
-    description: 'A genre-defying artist book about the human world as observed by fairy creatures.',
-    images: ['https://landofstoneflowers.com/archive/header-new.jpg'],
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ['/archive/header-new.jpg'],
   },
+  icons: { icon: '/favicon.svg' },
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: `${SITE_URL}/`,
+      name: 'The Land of Stone Flowers',
+      alternateName: 'The Nenuphar Book',
+      description: DESCRIPTION,
+      inLanguage: 'en',
+      about: { '@id': `${SITE_URL}/#book` },
+      copyrightHolder: { '@id': `${SITE_URL}/#sveta-dorosheva` },
+    },
+    {
+      '@type': 'Book',
+      '@id': `${SITE_URL}/#book`,
+      url: `${SITE_URL}/#book`,
+      name: 'The Land of Stone Flowers',
+      alternateName: 'The Nenuphar Book',
+      description: 'A genre-defying artist book about humans and their world, observed by gnomes, pixies, and other fairy creatures.',
+      isbn: '9781452163703',
+      numberOfPages: 216,
+      bookFormat: 'https://schema.org/Hardcover',
+      inLanguage: 'en',
+      image: `${SITE_URL}/archive/english-cover.jpg`,
+      author: { '@id': `${SITE_URL}/#sveta-dorosheva` },
+      illustrator: { '@id': `${SITE_URL}/#sveta-dorosheva` },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Chronicle Books',
+        url: 'https://www.chroniclebooks.com/',
+      },
+      sameAs: [
+        'https://www.svetadorosheva.com/project/the-nenuphar-book',
+        'https://www.goodreads.com/book/show/41968801-the-land-of-stone-flowers',
+      ],
+      potentialAction: {
+        '@type': 'BuyAction',
+        target: 'https://www.amazon.com/dp/1452163707',
+      },
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#sveta-dorosheva`,
+      name: 'Sveta Dorosheva',
+      url: 'https://www.svetadorosheva.com/',
+      image: `${SITE_URL}/archive/sveta-dorosheva-author.jpg`,
+      jobTitle: 'Author and illustrator',
+      description: 'Ukrainian-born, Israel-based author and illustrator creating intricate hand-drawn narrative art on paper.',
+      sameAs: [
+        'https://www.svetadorosheva.com/project/the-nenuphar-book',
+        'https://www.instagram.com/sveta_dorosheva_/',
+        'https://www.behance.net/lattona',
+      ],
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -26,7 +128,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <head>
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable site summary" />
+      </head>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
