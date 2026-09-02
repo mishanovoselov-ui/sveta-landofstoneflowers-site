@@ -106,7 +106,7 @@ export default function Home() {
   return (
     <main>
       <header className="head">
-        <a className="head__brand" href="#top"><span aria-hidden="true">✦</span> Land of Stone Flowers</a>
+        <a className="head__brand" href="#top">Land of Stone Flowers</a>
         <a className="head__buy" href="#preorder">Join preorder</a>
         <button className={`head__menu${menuOpen ? ' is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Open navigation" aria-expanded={menuOpen}><i /><i /></button>
         <nav className={`menu${menuOpen ? ' is-open' : ''}`} aria-label="Site navigation">
