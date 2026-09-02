@@ -9,13 +9,13 @@ export const metadata: Metadata = {
     description: 'A fairy guide to the mythical human being. Hand-drawn illustrations by Sveta Dorosheva.',
     type: 'book',
     url: 'https://landofstoneflowers.com/',
-    images: [{ url: 'https://land-of-stone-flowers.misha-novoselov.chatgpt.site/archive/header-new.jpg', width: 1900, height: 1254 }],
+    images: [{ url: 'https://landofstoneflowers.com/archive/header-new.jpg', width: 1900, height: 1254 }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'The Land of Stone Flowers',
     description: 'A fairy guide to the mythical human being.',
-    images: ['https://land-of-stone-flowers.misha-novoselov.chatgpt.site/archive/header-new.jpg'],
+    images: ['https://landofstoneflowers.com/archive/header-new.jpg'],
   },
 };
 
