@@ -106,6 +106,7 @@ button { font:inherit; }
 .hero h1 span { font-size:max(.14em,var(--text-min)); }
 .hero__copy h2 { font-size:clamp(18px,1.7vw,27px); }
 .spreads .section-head>.eyebrow { font-size:24px; }
+.spreads .section-head>.project-link { margin-top:32px; }
 
 @keyframes sway { 0%,100% { rotate:-2deg; } 50% { rotate:2deg; } }
 
