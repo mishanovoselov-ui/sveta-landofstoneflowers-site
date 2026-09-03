@@ -32,7 +32,7 @@ function Lily({ small = false }: { small?: boolean }) {
 }
 
 function ProjectLink({ label = 'Original project' }: { label?: string }) {
-  return <a className="project-link" href={PROJECT_URL} target="_blank" rel="noreferrer">{label}<span aria-hidden="true">↗</span></a>;
+  return <a className="project-link" href={PROJECT_URL} target="_blank" rel="noreferrer">{label}</a>;
 }
 
 export default function Home() {
