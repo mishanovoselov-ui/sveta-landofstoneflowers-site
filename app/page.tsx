@@ -182,7 +182,7 @@ export default function Home() {
 
       <section className="awards" id="awards">
         <div className="section-head"><p className="eyebrow">Selected recognition</p><h2>Awarded<br />imagination.</h2><p className="section-note">These distinctions recognize Sveta Dorosheva&apos;s wider illustration practice. The book itself was nominated for Russia&apos;s National Bestseller award in 2015.</p></div>
-        <div className="awards__list">{awards.map(({ year, mark, logo, name, result, href }) => <a key={`${year}-${name}`} href={href} target="_blank" rel="noreferrer" aria-label={`${name}: ${result}`}><span className="award__mark" aria-hidden="true">{logo ? <img src={logo} alt="" loading="lazy" /> : mark}</span><span className="award__year">{year}</span><h3>{name}</h3><p>{result}</p><i aria-hidden="true">↗</i></a>)}</div>
+        <div className="awards__list">{awards.map(({ year, name, result, href }) => <a key={`${year}-${name}`} href={href} target="_blank" rel="noreferrer" aria-label={`${name}: ${result}`}><span className="award__year">{year}</span><h3>{name}</h3><p>{result}</p></a>)}</div>
       </section>
 
       <section className="press">
