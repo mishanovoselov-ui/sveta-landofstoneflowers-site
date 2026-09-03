@@ -4,6 +4,18 @@ import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
 
 const PROJECT_URL = 'https://www.svetadorosheva.com/project/the-nenuphar-book';
 
+type AnalyticsEvent = 'page_view' | 'preorder_view' | 'cta_click' | 'preorder_start' | 'preorder_submit' | 'preorder_success' | 'preorder_error';
+
+function track(event: AnalyticsEvent, location = 'page') {
+  if (typeof window === 'undefined') return;
+  const body = JSON.stringify({ event, location, path: `${window.location.pathname}${window.location.hash}` });
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon('/api/analytics', new Blob([body], { type: 'application/json' }));
+    return;
+  }
+  void fetch('/api/analytics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true });
+}
+
 const stations = [
   { number: 'I', label: 'Anatomy', title: 'The improbable human body', text: 'Keen fairy observations and wonderfully wild assumptions about the unlikely construction of human beings.', image: '/archive/anatomy.jpg', alt: 'An illustrated book spread examining what a human is', width: 1900, height: 1206 },
   { number: 'II', label: 'Rituals', title: 'Customs nobody can explain', text: 'A topsy-turvy study of human customs, rituals, languages, dwellings, and other puzzling habits.', image: '/archive/faces.jpg', alt: 'A book spread showing many illustrated types of human beings', width: 1900, height: 1217 },
@@ -49,6 +61,7 @@ export default function Home() {
     const confirmEmail = String(formData.get('confirmEmail') || '').trim();
 
     if (email.toLowerCase() !== confirmEmail.toLowerCase()) {
+      track('preorder_error', 'email_mismatch');
       setPreorderStatus('error');
       setPreorderMessage('The email addresses do not match.');
       return;
@@ -56,6 +69,7 @@ export default function Home() {
 
     setPreorderStatus('sending');
     setPreorderMessage('');
+    track('preorder_submit', 'preorder');
 
     try {
       const response = await fetch('/api/preorders', {
@@ -72,13 +86,48 @@ export default function Home() {
       const result = await response.json() as { message?: string };
       if (!response.ok) throw new Error(result.message || 'Please try again.');
       setPreorderStatus('success');
+      track('preorder_success', 'preorder');
       setPreorderMessage('You’re on the list. Your region will help us plan where to print.');
       form.reset();
     } catch (error) {
+      track('preorder_error', 'preorder');
       setPreorderStatus('error');
       setPreorderMessage(error instanceof Error ? error.message : 'Please try again.');
     }
   }
+
+  useEffect(() => {
+    track('page_view');
+
+    const preorder = document.getElementById('preorder');
+    const observer = preorder ? new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      track('preorder_view', 'preorder');
+      observer.disconnect();
+    }, { threshold: 0.25 }) : null;
+    if (preorder && observer) observer.observe(preorder);
+
+    const click = (event: MouseEvent) => {
+      const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href="#preorder"]');
+      if (!anchor) return;
+      const location = anchor.closest('.hero') ? 'hero' : anchor.closest('.spreads') ? 'inside' : anchor.closest('.head') ? 'header' : 'page';
+      track('cta_click', location);
+    };
+    document.addEventListener('click', click);
+
+    const form = document.querySelector<HTMLFormElement>('.preorder__form');
+    const start = () => {
+      track('preorder_start', 'preorder');
+      form?.removeEventListener('focusin', start);
+    };
+    form?.addEventListener('focusin', start);
+
+    return () => {
+      observer?.disconnect();
+      document.removeEventListener('click', click);
+      form?.removeEventListener('focusin', start);
+    };
+  }, []);
 
   useEffect(() => {
     const items = Array.from(document.querySelectorAll<HTMLElement>('.journey__station'));
