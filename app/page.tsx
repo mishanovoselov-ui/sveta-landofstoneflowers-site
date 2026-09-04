@@ -47,6 +47,8 @@ const products = [
   { title: 'Wizards', image: '/archive/wizards.jpg', width: 1900, height: 1158, alt: 'The Wizards illustrated spread from The Land of Stone Flowers' },
   { title: 'Roses', image: '/archive/roses.jpg', width: 1900, height: 1139, alt: 'Illustrated roses spread from The Land of Stone Flowers' },
   { title: 'Water Lily', image: '/archive/water-lily.jpg', width: 1900, height: 1268, alt: 'Water lily illustration from The Land of Stone Flowers' },
+  { title: 'Human Faces', image: '/archive/faces.jpg', width: 1900, height: 1217, alt: 'Illustrated human faces spread from The Land of Stone Flowers' },
+  { title: 'Refusal', image: '/archive/refusal.jpg', width: 1900, height: 1129, alt: 'Illustrated field notes about refusal from The Land of Stone Flowers' },
 ];
 
 function Lily({ small = false }: { small?: boolean }) {
