@@ -102,7 +102,7 @@ export default function Home() {
           <a href="#editions" onClick={() => setMenuOpen(false)}>Editions</a>
           <a href="#artist" onClick={() => setMenuOpen(false)}>The artist</a>
           <a href="#shop" onClick={() => setMenuOpen(false)}>Shop</a>
-          <a href={PROJECT_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Original project ↗</a>
+          <a href={PROJECT_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Original project</a>
         </nav>
       </header>
 
@@ -110,7 +110,7 @@ export default function Home() {
         <img className="hero__image" src="/archive/header-new.jpg" width="1900" height="1254" fetchPriority="high" alt="An illustrated woman holding a red flower beneath an extraordinary tower-like headdress" />
         <div className="hero__veil" aria-hidden="true" />
         <div className="hero__copy">
-          <p><a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva ↗</a></p>
+          <p><a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a></p>
           <h1 id="hero-title"><span>The Land of</span><strong>Stone Flowers</strong></h1>
           <h2>A fairy guide to the mythical human being</h2>
         </div>
@@ -195,7 +195,7 @@ export default function Home() {
         <div className="shop__intro"><Lily /><p className="eyebrow">Available now</p><h2>The art continues<br />beyond the book.</h2><p>The book is not currently for sale. Explore Sveta Dorosheva’s original project, or shop art prints at So-called.</p></div>
         <div className="shop__links"><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="shop-section">Shop art prints</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">View the original book project</a></div>
       </section>
-      <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers ↗</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="footer-shop">Art prints</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project ↗</a><a href="/llms.txt">LLM guide</a><a href="/sitemap.xml">Sitemap</a></div></footer>
+      <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="footer-shop">Art prints</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project</a><a href="/llms.txt">LLM guide</a><a href="/sitemap.xml">Sitemap</a></div></footer>
     </main>
   );
 }
