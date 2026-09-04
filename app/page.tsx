@@ -51,6 +51,17 @@ const products = [
   { title: 'Refusal', image: '/archive/refusal.jpg', width: 1900, height: 1129, alt: 'Illustrated field notes about refusal from The Land of Stone Flowers' },
 ];
 
+const instagramPosts = [
+  { handle: '@childrenheffers', voice: 'Bookseller', text: 'A beautifully illustrated and written book, praised for its lush art and its fairy-eye view of the human world.', href: 'https://www.instagram.com/p/BnbCaFfA__B/' },
+  { handle: '@megmccauleyink', voice: 'Reader', text: 'A trail of scattered pages led to the full book—and an enchanting, whimsical discovery worth tracking down.', href: 'https://www.instagram.com/p/CRuHjUfJfTA/' },
+  { handle: '@globalhumdrum', voice: 'Artist & reader', text: 'A drawing from this beautiful book became the subject of a daily creative practice.', href: 'https://www.instagram.com/p/CZK-Ak1vhPP/' },
+  { handle: '@sveta_dorosheva_', voice: 'Readers', text: 'Readers describe the book as extraordinarily beautiful and say they linger over its intricate details.', href: 'https://www.instagram.com/reel/CI0j4LVlYmH/' },
+  { handle: '@sveta_dorosheva_', voice: 'From the artist', text: 'The English edition is introduced through its end-title artwork and its new name: The Land of Stone Flowers.', href: 'https://www.instagram.com/p/BhV_uz_ngC5/' },
+  { handle: '@zona_phantasmatica', voice: 'Art curation', text: 'An art-history perspective connects Dorosheva’s book illustrations with Art Nouveau and Golden Age illustration.', href: 'https://www.instagram.com/p/DYrUXSYDHFH/' },
+  { handle: '@vio.le.tatu', voice: 'Reader', text: 'One of Dorosheva’s drawings travelled beyond the page to inspire a hand-poked tattoo.', href: 'https://www.instagram.com/p/CIYUTwwH8IY/' },
+  { handle: '@moodymoon____', voice: 'Bookshelf', text: 'A reader’s book carousel brings The Land of Stone Flowers and its illustrations into view.', href: 'https://www.instagram.com/p/CW_UnTUvp__/' },
+];
+
 function Lily({ small = false }: { small?: boolean }) {
   return <span className={`lily${small ? ' lily--small' : ''}`} aria-hidden="true"><i /><i /><i /><i /><i /><b /></span>;
 }
@@ -63,11 +74,19 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeStage, setActiveStage] = useState(0);
   const productRail = useRef<HTMLDivElement>(null);
+  const instagramRail = useRef<HTMLDivElement>(null);
 
   const scrollProducts = (direction: -1 | 1) => {
     const rail = productRail.current;
     if (!rail) return;
     const card = rail.querySelector<HTMLElement>('.product-card');
+    rail.scrollBy({ left: direction * ((card?.offsetWidth ?? rail.clientWidth * 0.8) + 20), behavior: 'smooth' });
+  };
+
+  const scrollInstagram = (direction: -1 | 1) => {
+    const rail = instagramRail.current;
+    if (!rail) return;
+    const card = rail.querySelector<HTMLElement>('.instagram-card');
     rail.scrollBy({ left: direction * ((card?.offsetWidth ?? rail.clientWidth * 0.8) + 20), behavior: 'smooth' });
   };
 
@@ -195,6 +214,23 @@ export default function Home() {
           <a href="https://refinery29.com" target="_blank" rel="noreferrer"><span>Refinery29</span><p>“Gorgeous art nouveau illustrations and imaginative tales.”</p></a>
           <a href="https://www.goodreads.com/book/show/41968801-the-land-of-stone-flowers" target="_blank" rel="noreferrer"><span>Goodreads</span><p>“Intricately-lined ornamentation and beautiful-on-the-verge-of-grotesque magnificence.”</p></a>
         </div>
+      </section>
+
+      <section className="instagram" id="instagram" aria-labelledby="instagram-title">
+        <div className="instagram__head">
+          <div><p className="eyebrow">On Instagram</p><h2 id="instagram-title">Seen. Saved.<br />Loved.</h2></div>
+          <p>Readers, booksellers, artists, and curators share how Sveta Dorosheva and The Land of Stone Flowers stay with them.</p>
+        </div>
+        <div className="instagram__rail" ref={instagramRail} role="region" aria-label="Instagram posts about Sveta Dorosheva and The Land of Stone Flowers" tabIndex={0}>
+          {instagramPosts.map((post) => (
+            <article className="instagram-card" key={post.href}>
+              <div className="instagram-card__meta"><span>{post.voice}</span><a href={post.href} target="_blank" rel="noreferrer" data-track="instagram-post">{post.handle}</a></div>
+              <p>{post.text}</p>
+              <a className="instagram-card__source" href={post.href} target="_blank" rel="noreferrer" data-track="instagram-post">View post on Instagram</a>
+            </article>
+          ))}
+        </div>
+        <div className="instagram__footer"><p>Public posts summarized for brevity. Open each original for the full context.</p><div><button type="button" onClick={() => scrollInstagram(-1)}>Previous</button><button type="button" onClick={() => scrollInstagram(1)}>Next</button></div></div>
       </section>
 
       <section className="editions" id="editions">
