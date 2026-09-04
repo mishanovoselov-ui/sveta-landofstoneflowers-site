@@ -172,9 +172,9 @@ export default function Home() {
       <section className="press">
         <p className="eyebrow">Press &amp; readers</p>
         <div className="press__grid">
-          <a href="https://geekdad.com" target="_blank" rel="noreferrer"><span>GeekDad</span><p>“In the end, all I can say is: Wow. This book is a masterpiece.”</p><i>↗</i></a>
-          <a href="https://refinery29.com" target="_blank" rel="noreferrer"><span>Refinery29</span><p>“Gorgeous art nouveau illustrations and imaginative tales.”</p><i>↗</i></a>
-          <a href="https://www.goodreads.com/book/show/41968801-the-land-of-stone-flowers" target="_blank" rel="noreferrer"><span>Goodreads</span><p>“Intricately-lined ornamentation and beautiful-on-the-verge-of-grotesque magnificence.”</p><i>↗</i></a>
+          <a href="https://geekdad.com" target="_blank" rel="noreferrer"><span>GeekDad</span><p>“In the end, all I can say is: Wow. This book is a masterpiece.”</p></a>
+          <a href="https://refinery29.com" target="_blank" rel="noreferrer"><span>Refinery29</span><p>“Gorgeous art nouveau illustrations and imaginative tales.”</p></a>
+          <a href="https://www.goodreads.com/book/show/41968801-the-land-of-stone-flowers" target="_blank" rel="noreferrer"><span>Goodreads</span><p>“Intricately-lined ornamentation and beautiful-on-the-verge-of-grotesque magnificence.”</p></a>
         </div>
       </section>
 
