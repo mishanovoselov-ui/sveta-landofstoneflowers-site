@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 
 const PROJECT_URL = 'https://www.svetadorosheva.com/project/the-land-of-stone-flower';
-const SHOP_URL = 'https://so-called.me/collections/sveta-dorosheva';
+const MERCH_URL = 'https://so-called.me/collections/the-land-of-stone-flowers';
 
 type AnalyticsEvent = 'page_view' | 'cta_click';
 
@@ -139,7 +139,7 @@ export default function Home() {
           <a href="#awards" onClick={() => setMenuOpen(false)}>Awards</a>
           <a href="#editions" onClick={() => setMenuOpen(false)}>Editions</a>
           <a href="#artist" onClick={() => setMenuOpen(false)}>The artist</a>
-          <a href="#shop" onClick={() => setMenuOpen(false)}>Collection</a>
+          <a href="#shop" onClick={() => setMenuOpen(false)}>Merchandise</a>
           <a href={PROJECT_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Original project</a>
         </nav>
       </header>
@@ -199,7 +199,7 @@ export default function Home() {
         <div className="section-head"><p className="eyebrow">Inside the book</p><h2>Every page is<br />another world.</h2></div>
         <div className="spreads__grid"><img src="/archive/types.jpg" width="1900" height="1204" alt="Types of human beings, an illustrated book spread" loading="lazy" decoding="async" /><img src="/archive/black-white.jpg" width="1900" height="1290" alt="Black-and-white illustrated book spread" loading="lazy" decoding="async" /><img src="/archive/refusal.jpg" width="1900" height="1129" alt="Colorful illustrated field notes from the book" loading="lazy" decoding="async" /><img src="/archive/wizards.jpg" width="1900" height="1158" alt="The Wizards, a blue illustrated book spread" loading="lazy" decoding="async" /></div>
         <figure className="spreads__life"><img src="/hero/images.png" width="1186" height="662" alt="Three views of a reader with The Land of Stone Flowers" loading="lazy" decoding="async" /><figcaption>Made to live with, not just to sit on a shelf.</figcaption></figure>
-        <div className="spreads__action"><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="inside-shop">Visit So-called</a><p>The book is not currently for sale. Products based on its illustrations are in development.</p></div>
+        <div className="spreads__action"><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="inside-merch">Shop merchandise</a><p>The book is not currently for sale. Official merchandise featuring its illustrations is available from So-called.</p></div>
       </section>
 
       <section className="awards" id="awards">
@@ -242,31 +242,31 @@ export default function Home() {
       <section className="artist" id="artist">
         <figure className="artist__portrait"><img src="/archive/sveta-dorosheva-author.jpg" width="1600" height="1129" alt="Sveta Dorosheva holding an illustrated book outdoors" loading="lazy" decoding="async" /><figcaption>Courtesy of Sveta Dorosheva</figcaption></figure>
         <div className="artist__copy"><p className="eyebrow">The artist</p><h2>Sveta<br />Dorosheva</h2><p>Ukrainian-born and based in Israel, Sveta creates intricate, hand-drawn narrative art on paper. Myth, folk tradition, medieval manuscripts, and the contradictions of human nature meet in her work.</p>
-          <div className="socials"><a href={PROJECT_URL} target="_blank" rel="noreferrer">Book project</a><a href="https://www.svetadorosheva.com/" target="_blank" rel="noreferrer">Artist website</a><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="artist-shop">So-called</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook</a></div>
+          <div className="socials"><a href={PROJECT_URL} target="_blank" rel="noreferrer">Book project</a><a href="https://www.svetadorosheva.com/" target="_blank" rel="noreferrer">Artist website</a><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="artist-merch">Merchandise</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook</a></div>
         </div>
       </section>
 
       <section className="products" id="shop" aria-labelledby="products-title">
         <div className="products__head">
-          <div><p className="eyebrow">Future So-called collection</p><h2 id="products-title">The book will<br />leave the page.</h2></div>
-          <p>A preview of illustrations selected from The Land of Stone Flowers for future So-called products. The products are still in development.</p>
+          <div><p className="eyebrow">Official merchandise</p><h2 id="products-title">The book leaves<br />the page.</h2></div>
+          <p>Explore merchandise that carries Sveta Dorosheva&apos;s illustrations from The Land of Stone Flowers beyond the book.</p>
         </div>
         <div className="products__rail" ref={productRail} role="region" aria-label="Illustrated product carousel" tabIndex={0}>
           {products.map((product) => (
-            <article className="product-card" key={product.image}>
+            <a className="product-card" key={product.image} href={MERCH_URL} target="_blank" rel="noreferrer" data-track="merch-carousel">
               <figure><img src={product.image} width={product.width} height={product.height} alt={product.alt} loading="lazy" decoding="async" /></figure>
-              <div><h3>{product.title}</h3><p>In development</p></div>
-            </article>
+              <div><h3>{product.title}</h3><p>Shop merchandise</p></div>
+            </a>
           ))}
         </div>
-        <div className="products__footer"><p>Artwork © Sveta Dorosheva · Products coming to So-called</p><div><button type="button" onClick={() => scrollProducts(-1)}>Previous</button><button type="button" onClick={() => scrollProducts(1)}>Next</button></div></div>
+        <div className="products__footer"><p>Artwork © Sveta Dorosheva · Official merchandise on So-called</p><div><button type="button" onClick={() => scrollProducts(-1)}>Previous</button><button type="button" onClick={() => scrollProducts(1)}>Next</button></div></div>
       </section>
 
       <section className="shop">
-        <div className="shop__intro"><Lily /><p className="eyebrow">Coming to So-called</p><h2>The art continues<br />beyond the book.</h2><p>The book is not currently for sale. Products based on its illustrations are being developed for So-called.</p></div>
-        <div className="shop__links"><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="shop-section">Visit So-called</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">View the original book project</a></div>
+        <div className="shop__intro"><Lily /><p className="eyebrow">Official merchandise</p><h2>The art continues<br />beyond the book.</h2><p>The book is not currently for sale. The Land of Stone Flowers merchandise is available from So-called.</p></div>
+        <div className="shop__links"><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="shop-merch">Shop merchandise</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">View the original book project</a></div>
       </section>
-      <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="footer-shop">So-called</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project</a><a href="/llms.txt">LLM guide</a><a href="/sitemap.xml">Sitemap</a></div></footer>
+      <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="footer-merch">Merchandise</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project</a><a href="/llms.txt">LLM guide</a><a href="/sitemap.xml">Sitemap</a></div></footer>
     </main>
   );
 }
