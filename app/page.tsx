@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type CSSProperties } from 'react';
 
-const PROJECT_URL = 'https://www.svetadorosheva.com/project/the-nenuphar-book';
+const PROJECT_URL = 'https://www.svetadorosheva.com/project/the-land-of-stone-flower';
 const SHOP_URL = 'https://so-called.me/collections/sveta-dorosheva';
 
 type AnalyticsEvent = 'page_view' | 'cta_click';

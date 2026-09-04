@@ -98,7 +98,7 @@ const structuredData = {
         url: 'https://www.chroniclebooks.com/',
       },
       sameAs: [
-        'https://www.svetadorosheva.com/project/the-nenuphar-book',
+        'https://www.svetadorosheva.com/project/the-land-of-stone-flower',
         'https://www.goodreads.com/book/show/41968801-the-land-of-stone-flowers',
       ],
     },
@@ -111,7 +111,7 @@ const structuredData = {
       jobTitle: 'Author and illustrator',
       description: 'Ukrainian-born, Israel-based author and illustrator creating intricate hand-drawn narrative art on paper.',
       sameAs: [
-        'https://www.svetadorosheva.com/project/the-nenuphar-book',
+        'https://www.svetadorosheva.com/project/the-land-of-stone-flower',
         'https://so-called.me/collections/sveta-dorosheva',
         'https://www.instagram.com/sveta_dorosheva_/',
         'https://www.behance.net/lattona',
