@@ -156,7 +156,6 @@ export default function Home() {
     <main>
       <header className="head">
         <a className="head__brand" href="#top">Land of Stone Flowers</a>
-        <a className="head__buy" href="#preorder">Join preorder</a>
         <button className={`head__menu${menuOpen ? ' is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Open navigation" aria-expanded={menuOpen}><i /><i /></button>
         <nav className={`menu${menuOpen ? ' is-open' : ''}`} aria-label="Site navigation">
           <a href="#book" onClick={() => setMenuOpen(false)}>The book</a>
@@ -176,9 +175,7 @@ export default function Home() {
           <p><a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva ↗</a></p>
           <h1 id="hero-title"><span>The Land of</span><strong>Stone Flowers</strong></h1>
           <h2>A fairy guide to the mythical human being</h2>
-          <a className="hero__cta" href="#preorder">Join preorder</a>
         </div>
-        <a className="hero__scroll" href="#book">Open the book <span aria-hidden="true">↓</span></a>
       </section>
 
       <section className="book-reveal" id="book">
