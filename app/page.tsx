@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 
 const PROJECT_URL = 'https://www.svetadorosheva.com/project/the-nenuphar-book';
+const SHOP_URL = 'https://so-called.me/collections/sveta-dorosheva';
 
-type AnalyticsEvent = 'page_view' | 'preorder_view' | 'cta_click' | 'preorder_start' | 'preorder_submit' | 'preorder_success' | 'preorder_error';
+type AnalyticsEvent = 'page_view' | 'cta_click';
 
 function track(event: AnalyticsEvent, location = 'page') {
   if (typeof window === 'undefined') return;
@@ -50,82 +51,19 @@ function ProjectLink({ label = 'Original project' }: { label?: string }) {
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeStage, setActiveStage] = useState(0);
-  const [preorderStatus, setPreorderStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
-  const [preorderMessage, setPreorderMessage] = useState('');
-
-  async function submitPreorder(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const email = String(formData.get('email') || '').trim();
-    const confirmEmail = String(formData.get('confirmEmail') || '').trim();
-
-    if (email.toLowerCase() !== confirmEmail.toLowerCase()) {
-      track('preorder_error', 'email_mismatch');
-      setPreorderStatus('error');
-      setPreorderMessage('The email addresses do not match.');
-      return;
-    }
-
-    setPreorderStatus('sending');
-    setPreorderMessage('');
-    track('preorder_submit', 'preorder');
-
-    try {
-      const response = await fetch('/api/preorders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          confirmEmail,
-          region: String(formData.get('region') || ''),
-          consent: formData.get('consent') === 'on',
-          website: String(formData.get('website') || ''),
-        }),
-      });
-      const result = await response.json() as { message?: string };
-      if (!response.ok) throw new Error(result.message || 'Please try again.');
-      setPreorderStatus('success');
-      track('preorder_success', 'preorder');
-      setPreorderMessage('You’re on the list. Your region will help us plan where to print.');
-      form.reset();
-    } catch (error) {
-      track('preorder_error', 'preorder');
-      setPreorderStatus('error');
-      setPreorderMessage(error instanceof Error ? error.message : 'Please try again.');
-    }
-  }
 
   useEffect(() => {
     track('page_view');
 
-    const preorder = document.getElementById('preorder');
-    const observer = preorder ? new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      track('preorder_view', 'preorder');
-      observer.disconnect();
-    }, { threshold: 0.25 }) : null;
-    if (preorder && observer) observer.observe(preorder);
-
     const click = (event: MouseEvent) => {
-      const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href="#preorder"]');
+      const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[data-track]');
       if (!anchor) return;
-      const location = anchor.closest('.hero') ? 'hero' : anchor.closest('.spreads') ? 'inside' : anchor.closest('.head') ? 'header' : 'page';
-      track('cta_click', location);
+      track('cta_click', anchor.dataset.track || 'page');
     };
     document.addEventListener('click', click);
 
-    const form = document.querySelector<HTMLFormElement>('.preorder__form');
-    const start = () => {
-      track('preorder_start', 'preorder');
-      form?.removeEventListener('focusin', start);
-    };
-    form?.addEventListener('focusin', start);
-
     return () => {
-      observer?.disconnect();
       document.removeEventListener('click', click);
-      form?.removeEventListener('focusin', start);
     };
   }, []);
 
@@ -163,7 +101,7 @@ export default function Home() {
           <a href="#awards" onClick={() => setMenuOpen(false)}>Awards</a>
           <a href="#editions" onClick={() => setMenuOpen(false)}>Editions</a>
           <a href="#artist" onClick={() => setMenuOpen(false)}>The artist</a>
-          <a href="#preorder" onClick={() => setMenuOpen(false)}>Preorder</a>
+          <a href="#shop" onClick={() => setMenuOpen(false)}>Shop</a>
           <a href={PROJECT_URL} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>Original project ↗</a>
         </nav>
       </header>
@@ -223,7 +161,7 @@ export default function Home() {
         <div className="section-head"><p className="eyebrow">Inside the book</p><h2>Every page is<br />another world.</h2></div>
         <div className="spreads__grid"><img src="/archive/types.jpg" width="1900" height="1204" alt="Types of human beings, an illustrated book spread" loading="lazy" decoding="async" /><img src="/archive/black-white.jpg" width="1900" height="1290" alt="Black-and-white illustrated book spread" loading="lazy" decoding="async" /><img src="/archive/refusal.jpg" width="1900" height="1129" alt="Colorful illustrated field notes from the book" loading="lazy" decoding="async" /><img src="/archive/wizards.jpg" width="1900" height="1158" alt="The Wizards, a blue illustrated book spread" loading="lazy" decoding="async" /></div>
         <figure className="spreads__life"><img src="/hero/images.png" width="1186" height="662" alt="Three views of a reader with The Land of Stone Flowers" loading="lazy" decoding="async" /><figcaption>Made to live with, not just to sit on a shelf.</figcaption></figure>
-        <div className="spreads__action"><a href="#preorder">Join the reprint list</a><p>No payment now. Your region helps us plan the next printing.</p></div>
+        <div className="spreads__action"><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="inside-shop">Shop prints &amp; T-shirts</a><p>The book is not currently for sale. Art prints and clothing are available at So-called.</p></div>
       </section>
 
       <section className="awards" id="awards">
@@ -241,7 +179,7 @@ export default function Home() {
       </section>
 
       <section className="editions" id="editions">
-        <div className="section-head"><p className="eyebrow">Around the world</p><h2>Many covers.<br />One hidden book.</h2><p className="section-note">Most editions are now out of print. A limited number of copies may still be found in parts of Asia; join the preorder list to help shape a new printing.</p><p className="editions__count"><strong>7</strong><span>translations<br />worldwide</span></p><ProjectLink label="See the original book project" /></div>
+        <div className="section-head"><p className="eyebrow">Around the world</p><h2>Many covers.<br />One hidden book.</h2><p className="section-note">Most editions are now out of print. A limited number of copies may still be found in parts of Asia. The book is not currently offered for general sale.</p><p className="editions__count"><strong>7</strong><span>translations<br />worldwide</span></p><ProjectLink label="See the original book project" /></div>
         <img className="editions__image" src="/archive/editions.jpg" width="1900" height="2283" alt="Four international editions of The Land of Stone Flowers" loading="lazy" decoding="async" />
         <div className="editions__grid">{markets.map(([code, country, publisher]) => <article key={code}><span>{code}</span><h3>{country}</h3><p>{publisher}</p></article>)}</div>
       </section>
@@ -249,23 +187,15 @@ export default function Home() {
       <section className="artist" id="artist">
         <figure className="artist__portrait"><img src="/archive/sveta-dorosheva-author.jpg" width="1600" height="1129" alt="Sveta Dorosheva holding an illustrated book outdoors" loading="lazy" decoding="async" /><figcaption>Courtesy of Sveta Dorosheva</figcaption></figure>
         <div className="artist__copy"><p className="eyebrow">The artist</p><h2>Sveta<br />Dorosheva</h2><p>Ukrainian-born and based in Israel, Sveta creates intricate, hand-drawn narrative art on paper. Myth, folk tradition, medieval manuscripts, and the contradictions of human nature meet in her work.</p>
-          <div className="socials"><a href={PROJECT_URL} target="_blank" rel="noreferrer">Book project</a><a href="https://www.svetadorosheva.com/" target="_blank" rel="noreferrer">Artist website</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook</a></div>
+          <div className="socials"><a href={PROJECT_URL} target="_blank" rel="noreferrer">Book project</a><a href="https://www.svetadorosheva.com/" target="_blank" rel="noreferrer">Artist website</a><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="artist-shop">Prints &amp; T-shirts</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook</a></div>
         </div>
       </section>
 
-      <section className="preorder" id="preorder">
-        <div className="preorder__intro"><Lily /><p className="eyebrow">The next printing</p><h2>Tell us where the book<br />should bloom.</h2><p>Join the preorder list, confirm your email, and choose your region. Your answer will help us decide where to print the next edition.</p></div>
-        <form className="preorder__form" onSubmit={submitPreorder} noValidate>
-          <div className="preorder__field"><label htmlFor="preorder-email">Email</label><input id="preorder-email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="you@example.com" required /></div>
-          <div className="preorder__field"><label htmlFor="preorder-confirm-email">Confirm email</label><input id="preorder-confirm-email" name="confirmEmail" type="email" inputMode="email" autoComplete="email" placeholder="you@example.com" required /></div>
-          <div className="preorder__field"><label htmlFor="preorder-region">Region</label><select id="preorder-region" name="region" defaultValue="" required><option value="" disabled>Select your region</option><option value="north-america">North America</option><option value="latin-america">Latin America</option><option value="uk-ireland">UK &amp; Ireland</option><option value="western-europe">Western Europe</option><option value="eastern-europe-central-asia">Eastern Europe &amp; Central Asia</option><option value="middle-east">Middle East</option><option value="africa">Africa</option><option value="asia-pacific">Asia-Pacific</option><option value="other">Other</option></select></div>
-          <div className="preorder__trap" aria-hidden="true"><label htmlFor="preorder-website">Website</label><input id="preorder-website" name="website" type="text" tabIndex={-1} autoComplete="off" /></div>
-          <label className="preorder__consent"><input name="consent" type="checkbox" required /><span>I agree to receive preorder and printing updates by email. Unsubscribe anytime.</span></label>
-          <button type="submit" disabled={preorderStatus === 'sending'}>{preorderStatus === 'sending' ? 'Joining…' : 'Join preorder'}</button>
-          <p className={`preorder__status${preorderStatus === 'error' ? ' is-error' : ''}`} role="status" aria-live="polite">{preorderMessage}</p>
-        </form>
+      <section className="shop" id="shop">
+        <div className="shop__intro"><Lily /><p className="eyebrow">Available now</p><h2>The art continues<br />beyond the book.</h2><p>The book is not currently for sale. Explore Sveta Dorosheva’s original project, or shop art prints and T-shirts at So-called.</p></div>
+        <div className="shop__links"><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="shop-section">Shop prints &amp; T-shirts</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">View the original book project</a></div>
       </section>
-      <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers ↗</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project ↗</a><a href="/llms.txt">LLM guide</a><a href="/sitemap.xml">Sitemap</a></div></footer>
+      <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers ↗</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={SHOP_URL} target="_blank" rel="noreferrer" data-track="footer-shop">Prints &amp; T-shirts</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project ↗</a><a href="/llms.txt">LLM guide</a><a href="/sitemap.xml">Sitemap</a></div></footer>
     </main>
   );
 }

@@ -3,7 +3,7 @@ import './globals.css';
 
 const SITE_URL = 'https://landofstoneflowers.com';
 const TITLE = 'The Land of Stone Flowers | Sveta Dorosheva';
-const DESCRIPTION = 'Discover The Land of Stone Flowers, Sveta Dorosheva’s 216-page illustrated book. Most editions are out of print; join the preorder list for a new printing.';
+const DESCRIPTION = 'Discover The Land of Stone Flowers, Sveta Dorosheva’s 216-page illustrated book. Most editions are out of print; explore the original project and shop her prints and T-shirts.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -99,11 +99,6 @@ const structuredData = {
         'https://www.svetadorosheva.com/project/the-nenuphar-book',
         'https://www.goodreads.com/book/show/41968801-the-land-of-stone-flowers',
       ],
-      potentialAction: {
-        '@type': 'RegisterAction',
-        name: 'Join the preorder list',
-        target: `${SITE_URL}/#preorder`,
-      },
     },
     {
       '@type': 'Person',
@@ -115,6 +110,7 @@ const structuredData = {
       description: 'Ukrainian-born, Israel-based author and illustrator creating intricate hand-drawn narrative art on paper.',
       sameAs: [
         'https://www.svetadorosheva.com/project/the-nenuphar-book',
+        'https://so-called.me/collections/sveta-dorosheva',
         'https://www.instagram.com/sveta_dorosheva_/',
         'https://www.behance.net/lattona',
       ],
