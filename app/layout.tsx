@@ -3,7 +3,7 @@ import './globals.css';
 
 const SITE_URL = 'https://landofstoneflowers.com';
 const TITLE = 'The Land of Stone Flowers | Sveta Dorosheva';
-const DESCRIPTION = 'Discover The Land of Stone Flowers, Sveta Dorosheva’s 216-page illustrated book. Most editions are out of print; explore the original project and shop her prints and T-shirts.';
+const DESCRIPTION = 'Discover The Land of Stone Flowers, Sveta Dorosheva’s 216-page illustrated book. Most editions are out of print; explore the original project and shop her art prints.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
