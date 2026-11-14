@@ -66,8 +66,42 @@ function Lily({ small = false }: { small?: boolean }) {
   return <span className={`lily${small ? ' lily--small' : ''}`} aria-hidden="true"><i /><i /><i /><i /><i /><b /></span>;
 }
 
-function ProjectLink({ label = 'Original project' }: { label?: string }) {
-  return <a className="project-link" href={PROJECT_URL} target="_blank" rel="noreferrer">{label}</a>;
+function ProjectLink({ label = 'Original project', reveal = false }: { label?: string; reveal?: boolean }) {
+  return <a className="project-link" href={PROJECT_URL} target="_blank" rel="noreferrer" data-reveal={reveal ? '' : undefined}>{label}</a>;
+}
+
+const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
+const REVEAL_MARGIN = '0px 0px -10% 0px';
+
+function canAnimate() {
+  return 'IntersectionObserver' in window && !window.matchMedia(REDUCED_MOTION).matches;
+}
+
+/* Counts up once when scrolled into view. Server HTML always carries the final number. */
+function CountUp({ to }: { to: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [value, setValue] = useState(to);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !canAnimate() || el.getBoundingClientRect().top <= window.innerHeight) return;
+    let frame = 0;
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      io.disconnect();
+      const start = performance.now();
+      const tick = (now: number) => {
+        const t = Math.min((now - start) / 1400, 1);
+        setValue(Math.round(to * (1 - Math.pow(1 - t, 3))));
+        if (t < 1) frame = requestAnimationFrame(tick);
+      };
+      frame = requestAnimationFrame(tick);
+    }, { rootMargin: REVEAL_MARGIN });
+    io.observe(el);
+    return () => { io.disconnect(); cancelAnimationFrame(frame); };
+  }, [to]);
+
+  return <span ref={ref} data-reveal="">{value}</span>;
 }
 
 export default function Home() {
@@ -122,6 +156,31 @@ export default function Home() {
     return () => window.removeEventListener('scroll', update);
   }, []);
 
+  /* Scroll reveals: only elements below the fold are armed, so nothing visible ever flashes out.
+     Elements entering together are staggered in document order. */
+  useEffect(() => {
+    if (!canAnimate()) return;
+    const fold = window.innerHeight;
+    const targets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]')).filter((el) => el.getBoundingClientRect().top > fold);
+    if (!targets.length) return;
+    targets.forEach((el) => { el.dataset.armed = 'wait'; });
+    const io = new IntersectionObserver((entries) => {
+      let order = 0;
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target as HTMLElement;
+        el.style.animationDelay = `${Math.min(order++, 6) * 80}ms`;
+        el.dataset.armed = 'in';
+        io.unobserve(el);
+      });
+    }, { rootMargin: REVEAL_MARGIN });
+    targets.forEach((el) => io.observe(el));
+    return () => {
+      io.disconnect();
+      targets.forEach((el) => { delete el.dataset.armed; el.style.animationDelay = ''; });
+    };
+  }, []);
+
   useEffect(() => {
     const close = (event: KeyboardEvent) => event.key === 'Escape' && setMenuOpen(false);
     window.addEventListener('keydown', close);
@@ -156,17 +215,17 @@ export default function Home() {
 
       <section className="book-reveal" id="book">
         <div className="book-reveal__copy">
-          <p className="eyebrow">The English edition</p>
-          <h2>A book about people,<br />written by fairies.</h2>
-          <p>A genre-defying artist book about humans and their world, observed by gnomes, pixies, and other fairy creatures.</p>
-          <ProjectLink label="Read Sveta’s project story" />
+          <p className="eyebrow" data-reveal="">The English edition</p>
+          <h2 data-reveal="">A book about people,<br />written by fairies.</h2>
+          <p data-reveal="">A genre-defying artist book about humans and their world, observed by gnomes, pixies, and other fairy creatures.</p>
+          <ProjectLink label="Read Sveta’s project story" reveal />
           <dl>
-            <div><dt>Published</dt><dd>Chronicle Books</dd></div>
-            <div><dt>Format</dt><dd>Hardcover · 216 pages</dd></div>
-            <div><dt>ISBN</dt><dd>978-1-4521-6370-3</dd></div>
+            <div data-reveal=""><dt>Published</dt><dd>Chronicle Books</dd></div>
+            <div data-reveal=""><dt>Format</dt><dd>Hardcover · 216 pages</dd></div>
+            <div data-reveal=""><dt>ISBN</dt><dd>978-1-4521-6370-3</dd></div>
           </dl>
         </div>
-        <figure className="book-reveal__cover"><img src="/archive/english-cover.jpg" width="1900" height="2198" alt="The blue and gold English cover of The Land of Stone Flowers" /></figure>
+        <figure className="book-reveal__cover" data-reveal=""><img src="/archive/english-cover.jpg" width="1900" height="2198" alt="The blue and gold English cover of The Land of Stone Flowers" /></figure>
       </section>
 
       <section className="journey" id="journey">
@@ -186,42 +245,42 @@ export default function Home() {
 
       <section className="lily-world" aria-label="The world of the water lily">
         <img src="/archive/water-lily.jpg" width="1900" height="1268" alt="A tiny fairy seated among immense pink water lilies" loading="lazy" decoding="async" />
-        <p>Discovered in a water lily<br />under mysterious circumstances.</p>
+        <p data-reveal="">Discovered in a water lily<br />under mysterious circumstances.</p>
       </section>
 
       <section className="facts" aria-label="Book facts">
-        <article><span>7</span><h2>translations</h2><p>Published in seven languages for readers across cultures.</p></article>
-        <article><span>216</span><h2>illustrated pages</h2><p>Dense with hand-drawn borders, evidence, specimens, and visual jokes.</p></article>
-        <article><span>∞</span><h2>hidden details</h2><p>A book designed to be revisited, wandered through, and looked at twice.</p></article>
+        <article><CountUp to={7} /><h2 data-reveal="">translations</h2><p data-reveal="">Published in seven languages for readers across cultures.</p></article>
+        <article><CountUp to={216} /><h2 data-reveal="">illustrated pages</h2><p data-reveal="">Dense with hand-drawn borders, evidence, specimens, and visual jokes.</p></article>
+        <article><span data-reveal="">∞</span><h2 data-reveal="">hidden details</h2><p data-reveal="">A book designed to be revisited, wandered through, and looked at twice.</p></article>
       </section>
 
       <section className="spreads" id="inside">
-        <div className="section-head"><p className="eyebrow">Inside the book</p><h2>Every page is<br />another world.</h2></div>
-        <div className="spreads__grid"><img src="/archive/types.jpg" width="1900" height="1204" alt="Types of human beings, an illustrated book spread" loading="lazy" decoding="async" /><img src="/archive/black-white.jpg" width="1900" height="1290" alt="Black-and-white illustrated book spread" loading="lazy" decoding="async" /><img src="/archive/refusal.jpg" width="1900" height="1129" alt="Colorful illustrated field notes from the book" loading="lazy" decoding="async" /><img src="/archive/wizards.jpg" width="1900" height="1158" alt="The Wizards, a blue illustrated book spread" loading="lazy" decoding="async" /></div>
-        <figure className="spreads__life"><img src="/hero/images.png" width="1186" height="662" alt="Three views of a reader with The Land of Stone Flowers" loading="lazy" decoding="async" /><figcaption>Made to live with, not just to sit on a shelf.</figcaption></figure>
-        <div className="spreads__action"><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="inside-merch">Shop merchandise</a><p>The book is not currently for sale. Official merchandise featuring its illustrations is available from So-called.</p></div>
+        <div className="section-head"><p className="eyebrow" data-reveal="">Inside the book</p><h2 data-reveal="">Every page is<br />another world.</h2></div>
+        <div className="spreads__grid"><img data-reveal="unveil" src="/archive/types.jpg" width="1900" height="1204" alt="Types of human beings, an illustrated book spread" loading="lazy" decoding="async" /><img data-reveal="unveil" src="/archive/black-white.jpg" width="1900" height="1290" alt="Black-and-white illustrated book spread" loading="lazy" decoding="async" /><img data-reveal="unveil" src="/archive/refusal.jpg" width="1900" height="1129" alt="Colorful illustrated field notes from the book" loading="lazy" decoding="async" /><img data-reveal="unveil" src="/archive/wizards.jpg" width="1900" height="1158" alt="The Wizards, a blue illustrated book spread" loading="lazy" decoding="async" /></div>
+        <figure className="spreads__life" data-reveal=""><img src="/hero/images.png" width="1186" height="662" alt="Three views of a reader with The Land of Stone Flowers" loading="lazy" decoding="async" /><figcaption>Made to live with, not just to sit on a shelf.</figcaption></figure>
+        <div className="spreads__action" data-reveal=""><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="inside-merch">Shop merchandise</a><p>The book is not currently for sale. Official merchandise featuring its illustrations is available from So-called.</p></div>
       </section>
 
       <section className="awards" id="awards">
-        <div className="section-head"><p className="eyebrow">Selected recognition</p><h2>Awarded<br />imagination.</h2><p className="section-note">These distinctions recognize Sveta Dorosheva&apos;s wider illustration practice. The book itself was nominated for Russia&apos;s National Bestseller award in 2015.</p></div>
-        <div className="awards__list">{awards.map(({ year, name, result, href }) => <a key={`${year}-${name}`} href={href} target="_blank" rel="noreferrer" aria-label={`${name}: ${result}`}><span className="award__year">{year}</span><h3>{name}</h3><p>{result}</p></a>)}</div>
+        <div className="section-head"><p className="eyebrow" data-reveal="">Selected recognition</p><h2 data-reveal="">Awarded<br />imagination.</h2><p className="section-note" data-reveal="">These distinctions recognize Sveta Dorosheva&apos;s wider illustration practice. The book itself was nominated for Russia&apos;s National Bestseller award in 2015.</p></div>
+        <div className="awards__list">{awards.map(({ year, name, result, href }) => <a key={`${year}-${name}`} href={href} target="_blank" rel="noreferrer" aria-label={`${name}: ${result}`} data-reveal=""><span className="award__year">{year}</span><h3>{name}</h3><p>{result}</p></a>)}</div>
       </section>
 
       <section className="press">
-        <p className="eyebrow">Press &amp; readers</p>
+        <p className="eyebrow" data-reveal="">Press &amp; readers</p>
         <div className="press__grid">
-          <a href="https://geekdad.com" target="_blank" rel="noreferrer"><span>GeekDad</span><p>“In the end, all I can say is: Wow. This book is a masterpiece.”</p></a>
-          <a href="https://refinery29.com" target="_blank" rel="noreferrer"><span>Refinery29</span><p>“Gorgeous art nouveau illustrations and imaginative tales.”</p></a>
-          <a href="https://www.goodreads.com/book/show/41968801-the-land-of-stone-flowers" target="_blank" rel="noreferrer"><span>Goodreads</span><p>“Intricately-lined ornamentation and beautiful-on-the-verge-of-grotesque magnificence.”</p></a>
+          <a href="https://geekdad.com" target="_blank" rel="noreferrer" data-reveal=""><span>GeekDad</span><p>“In the end, all I can say is: Wow. This book is a masterpiece.”</p></a>
+          <a href="https://refinery29.com" target="_blank" rel="noreferrer" data-reveal=""><span>Refinery29</span><p>“Gorgeous art nouveau illustrations and imaginative tales.”</p></a>
+          <a href="https://www.goodreads.com/book/show/41968801-the-land-of-stone-flowers" target="_blank" rel="noreferrer" data-reveal=""><span>Goodreads</span><p>“Intricately-lined ornamentation and beautiful-on-the-verge-of-grotesque magnificence.”</p></a>
         </div>
       </section>
 
       <section className="instagram" id="instagram" aria-labelledby="instagram-title">
         <div className="instagram__head">
-          <div><p className="eyebrow">On Instagram</p><h2 id="instagram-title">Seen. Saved.<br />Loved.</h2></div>
-          <p>Readers, booksellers, artists, and curators share how Sveta Dorosheva and The Land of Stone Flowers stay with them.</p>
+          <div data-reveal=""><p className="eyebrow">On Instagram</p><h2 id="instagram-title">Seen. Saved.<br />Loved.</h2></div>
+          <p data-reveal="">Readers, booksellers, artists, and curators share how Sveta Dorosheva and The Land of Stone Flowers stay with them.</p>
         </div>
-        <div className="instagram__rail" ref={instagramRail} role="region" aria-label="Instagram posts about Sveta Dorosheva and The Land of Stone Flowers" tabIndex={0}>
+        <div className="instagram__rail" data-reveal="" ref={instagramRail} role="region" aria-label="Instagram posts about Sveta Dorosheva and The Land of Stone Flowers" tabIndex={0}>
           {instagramPosts.map((post) => (
             <article className="instagram-card" key={post.href}>
               <div className="instagram-card__meta"><span>{post.voice}</span><a href={post.href} target="_blank" rel="noreferrer" data-track="instagram-post">{post.handle}</a></div>
@@ -230,28 +289,28 @@ export default function Home() {
             </article>
           ))}
         </div>
-        <div className="instagram__footer"><p>Public posts summarized for brevity. Open each original for the full context.</p><div><button type="button" onClick={() => scrollInstagram(-1)}>Previous</button><button type="button" onClick={() => scrollInstagram(1)}>Next</button></div></div>
+        <div className="instagram__footer" data-reveal=""><p>Public posts summarized for brevity. Open each original for the full context.</p><div><button type="button" onClick={() => scrollInstagram(-1)}>Previous</button><button type="button" onClick={() => scrollInstagram(1)}>Next</button></div></div>
       </section>
 
       <section className="editions" id="editions">
-        <div className="section-head"><p className="eyebrow">Around the world</p><h2>Many covers.<br />One hidden book.</h2><p className="section-note">Most editions are now out of print. A limited number of copies may still be found in parts of Asia. The book is not currently offered for general sale.</p><p className="editions__count"><strong>7</strong><span>translations<br />worldwide</span></p><ProjectLink label="See the original book project" /></div>
-        <img className="editions__image" src="/archive/editions.jpg" width="1900" height="2283" alt="Four international editions of The Land of Stone Flowers" loading="lazy" decoding="async" />
-        <div className="editions__grid">{markets.map(([code, country, publisher]) => <article key={code}><span>{code}</span><h3>{country}</h3><p>{publisher}</p></article>)}</div>
+        <div className="section-head"><p className="eyebrow" data-reveal="">Around the world</p><h2 data-reveal="">Many covers.<br />One hidden book.</h2><p className="section-note" data-reveal="">Most editions are now out of print. A limited number of copies may still be found in parts of Asia. The book is not currently offered for general sale.</p><p className="editions__count" data-reveal=""><strong>7</strong><span>translations<br />worldwide</span></p><ProjectLink label="See the original book project" reveal /></div>
+        <img className="editions__image" data-reveal="unveil" src="/archive/editions.jpg" width="1900" height="2283" alt="Four international editions of The Land of Stone Flowers" loading="lazy" decoding="async" />
+        <div className="editions__grid">{markets.map(([code, country, publisher]) => <article key={code} data-reveal=""><span>{code}</span><h3>{country}</h3><p>{publisher}</p></article>)}</div>
       </section>
 
       <section className="artist" id="artist">
         <figure className="artist__portrait"><img src="/archive/sveta-dorosheva-author.jpg" width="1600" height="1129" alt="Sveta Dorosheva holding an illustrated book outdoors" loading="lazy" decoding="async" /><figcaption>Courtesy of Sveta Dorosheva</figcaption></figure>
-        <div className="artist__copy"><p className="eyebrow">The artist</p><h2>Sveta<br />Dorosheva</h2><p>Ukrainian-born and based in Israel, Sveta creates intricate, hand-drawn narrative art on paper. Myth, folk tradition, medieval manuscripts, and the contradictions of human nature meet in her work.</p>
-          <div className="socials"><a href={PROJECT_URL} target="_blank" rel="noreferrer">Book project</a><a href="https://www.svetadorosheva.com/" target="_blank" rel="noreferrer">Artist website</a><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="artist-merch">Merchandise</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook</a></div>
+        <div className="artist__copy"><p className="eyebrow" data-reveal="">The artist</p><h2 data-reveal="">Sveta<br />Dorosheva</h2><p data-reveal="">Ukrainian-born and based in Israel, Sveta creates intricate, hand-drawn narrative art on paper. Myth, folk tradition, medieval manuscripts, and the contradictions of human nature meet in her work.</p>
+          <div className="socials" data-reveal=""><a href={PROJECT_URL} target="_blank" rel="noreferrer">Book project</a><a href="https://www.svetadorosheva.com/" target="_blank" rel="noreferrer">Artist website</a><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="artist-merch">Merchandise</a><a href="https://www.instagram.com/sveta_dorosheva_/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.behance.net/lattona" target="_blank" rel="noreferrer">Behance</a><a href="https://www.facebook.com/draw.lattona" target="_blank" rel="noreferrer">Facebook</a></div>
         </div>
       </section>
 
       <section className="products" id="shop" aria-labelledby="products-title">
         <div className="products__head">
-          <div><p className="eyebrow">Official merchandise</p><h2 id="products-title">The book leaves<br />the page.</h2></div>
-          <p>Explore merchandise that carries Sveta Dorosheva&apos;s illustrations from The Land of Stone Flowers beyond the book.</p>
+          <div data-reveal=""><p className="eyebrow">Official merchandise</p><h2 id="products-title">The book leaves<br />the page.</h2></div>
+          <p data-reveal="">Explore merchandise that carries Sveta Dorosheva&apos;s illustrations from The Land of Stone Flowers beyond the book.</p>
         </div>
-        <div className="products__rail" ref={productRail} role="region" aria-label="Illustrated product carousel" tabIndex={0}>
+        <div className="products__rail" data-reveal="" ref={productRail} role="region" aria-label="Illustrated product carousel" tabIndex={0}>
           {products.map((product) => (
             <a className="product-card" key={product.image} href={MERCH_URL} target="_blank" rel="noreferrer" data-track="merch-carousel">
               <figure><img src={product.image} width={product.width} height={product.height} alt={product.alt} loading="lazy" decoding="async" /></figure>
@@ -259,12 +318,12 @@ export default function Home() {
             </a>
           ))}
         </div>
-        <div className="products__footer"><p>Artwork © Sveta Dorosheva · Official merchandise on So-called</p><div><button type="button" onClick={() => scrollProducts(-1)}>Previous</button><button type="button" onClick={() => scrollProducts(1)}>Next</button></div></div>
+        <div className="products__footer" data-reveal=""><p>Artwork © Sveta Dorosheva · Official merchandise on So-called</p><div><button type="button" onClick={() => scrollProducts(-1)}>Previous</button><button type="button" onClick={() => scrollProducts(1)}>Next</button></div></div>
       </section>
 
       <section className="shop">
-        <div className="shop__intro"><Lily /><p className="eyebrow">Official merchandise</p><h2>The art continues<br />beyond the book.</h2><p>The book is not currently for sale. The Land of Stone Flowers merchandise is available from So-called.</p></div>
-        <div className="shop__links"><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="shop-merch">Shop merchandise</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">View the original book project</a></div>
+        <div className="shop__intro"><Lily /><p className="eyebrow" data-reveal="">Official merchandise</p><h2 data-reveal="">The art continues<br />beyond the book.</h2><p data-reveal="">The book is not currently for sale. The Land of Stone Flowers merchandise is available from So-called.</p></div>
+        <div className="shop__links" data-reveal=""><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="shop-merch">Shop merchandise</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">View the original book project</a></div>
       </section>
       <footer className="footer"><p className="footer__title"><a href={PROJECT_URL} target="_blank" rel="noreferrer">The Land of Stone Flowers</a></p><p>Story &amp; illustrations © <a href={PROJECT_URL} target="_blank" rel="noreferrer">Sveta Dorosheva</a><br />Published by Chronicle Books</p><div><a href={MERCH_URL} target="_blank" rel="noreferrer" data-track="footer-merch">Merchandise</a><a href={PROJECT_URL} target="_blank" rel="noreferrer">Original project</a><a href="/llms.txt">LLM guide</a><a href="/sitemap.xml">Sitemap</a></div></footer>
     </main>
